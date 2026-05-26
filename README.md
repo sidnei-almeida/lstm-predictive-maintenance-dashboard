@@ -354,8 +354,10 @@ npm start
 | `NEXT_PUBLIC_REPLAY_INTERVAL_MS` | `1000` |
 | `NEXT_PUBLIC_DEBUG_INFERENCE` | `false` |
 
-3. Commit **`data/pred_maint.csv`**, **`X_processed.npy`**, and **`y_processed.npy`**.
+3. Commit **`data/pred_maint.csv`**, **`X_processed.npy`**, **`y_processed.npy`**, and **`data/.cache/processed.bin`** (~290 KB, required — Vercel has no Python/NumPy at build).
 4. Deploy. Icons: `src/app/icon.svg`, `favicon.ico`, `apple-icon.png`, `public/icons/*`.
+
+To regenerate the cache locally: `npm run data:cache` then `git add -f data/.cache/processed.bin`.
 
 > First load may take **30–60 s** while Hugging Face Spaces cold-starts; the boot overlay retries `/health` automatically.
 

@@ -22,6 +22,12 @@ const BUILD_SCRIPT = path.join(process.cwd(), "scripts", "build-processed-cache.
 async function ensureCacheBuilt(): Promise<void> {
   if (existsSync(CACHE_PATH)) return;
 
+  if (process.env.VERCEL === "1") {
+    throw new Error(
+      "data/.cache/processed.bin is missing. Run npm run data:cache locally, commit processed.bin, and redeploy.",
+    );
+  }
+
   if (!existsSync(BUILD_SCRIPT)) {
     throw new Error("Processed cache missing and build script not found");
   }

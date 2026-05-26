@@ -20,8 +20,10 @@
 # production
 /build
 
-# processed npy cache (regenerated from X_processed.npy)
-data/.cache/
+# Local cache artifacts (keep processed.bin committed for Vercel builds)
+data/.cache/*
+!data/.cache/
+!data/.cache/processed.bin
 
 # misc
 .DS_Store
