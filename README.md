@@ -126,16 +126,16 @@ flowchart TB
   end
 
   subgraph Client["Next.js client"]
-    BOOT[Boot: CSV + binary cache + /health]
-    BUF[Rolling buffer 50 steps]
-    REPLAY[Curated or sequential replay]
-    EVT[Event audit log]
+    BOOT["Boot · CSV · cache · health check"]
+    BUF["Rolling buffer 50 steps"]
+    REPLAY["Curated or sequential replay"]
+    EVT["Event audit log"]
   end
 
   subgraph API["LSTM API (HF Spaces)"]
-    HEALTH[/health]
-    PRED[/predict]
-    META[/metadata]
+    HEALTH["GET /health"]
+    PRED["POST /predict"]
+    META["GET /metadata"]
   end
 
   CSV --> BOOT
