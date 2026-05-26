@@ -17,6 +17,13 @@ export const metadata: Metadata = {
   title: "Real-Time Predictive Maintenance Monitor",
   description:
     "Historical CSV replayed as a simulated IoT machine stream with LSTM failure-risk inference.",
+  manifest: "/site.webmanifest",
+  themeColor: "#000000",
+  icons: {
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    apple: "/apple-icon.png",
+    shortcut: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({

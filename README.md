@@ -286,21 +286,20 @@ Tokens: `src/app/globals.css`, `src/lib/theme/tokens.ts`, `src/lib/charts/vfd-te
 
 ---
 
-## Environment
+## Environment variables
+
+All settings use the `NEXT_PUBLIC_` prefix (embedded in the client bundle at build time on Vercel).
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `NEXT_PUBLIC_PRED_MAINT_API_URL` | No | `https://salmeida-predictive-maintenance-lstm.hf.space` | LSTM FastAPI base URL |
+| `NEXT_PUBLIC_REPLAY_INTERVAL_MS` | No | `1000` | CSV replay interval (ms) |
+| `NEXT_PUBLIC_DEBUG_INFERENCE` | No | `false` in prod | `true` → `/predict` debug logs + panel |
+
+`NODE_ENV` is set automatically by Vercel.
 
 ```bash
-cp .env.local.example .env.local
-```
-
-```env
-# LSTM inference API (default: Hugging Face Spaces)
-NEXT_PUBLIC_PRED_MAINT_API_URL=https://salmeida-predictive-maintenance-lstm.hf.space
-
-# CSV replay interval (ms)
-NEXT_PUBLIC_REPLAY_INTERVAL_MS=1000
-
-# Optional: verbose /predict logging + debug panel
-NEXT_PUBLIC_DEBUG_INFERENCE=true
+cp .env.example .env.local
 ```
 
 **Local FastAPI** (uvicorn `:7860` with CORS):
@@ -347,11 +346,18 @@ npm start
 ## Deploy on Vercel
 
 1. Import the repository on [Vercel](https://vercel.com) — preset **Next.js**.
-2. Set environment variables:
-   - `NEXT_PUBLIC_PRED_MAINT_API_URL` = `https://salmeida-predictive-maintenance-lstm.hf.space`
-   - `NEXT_PUBLIC_REPLAY_INTERVAL_MS` = `1000` (optional)
-3. Commit **`data/pred_maint.csv`**, **`X_processed.npy`**, **`y_processed.npy`** (or inject via CI).
-4. Deploy.
+2. **Settings → Environment Variables** (Production + Preview + Development):
+
+| Name | Recommended value |
+|------|-------------------|
+| `NEXT_PUBLIC_PRED_MAINT_API_URL` | `https://salmeida-predictive-maintenance-lstm.hf.space` |
+| `NEXT_PUBLIC_REPLAY_INTERVAL_MS` | `1000` |
+| `NEXT_PUBLIC_DEBUG_INFERENCE` | `false` |
+
+3. Commit **`data/pred_maint.csv`**, **`X_processed.npy`**, and **`y_processed.npy`**.
+4. Deploy. Icons: `src/app/icon.svg`, `favicon.ico`, `apple-icon.png`, `public/icons/*`.
+
+> First load may take **30–60 s** while Hugging Face Spaces cold-starts; the boot overlay retries `/health` automatically.
 
 ---
 
@@ -383,7 +389,10 @@ lstm-predictive-maintenance-dashboard/
 │   │   └── layout/                 # Shell, sidebar, hero, logos
 │   ├── lib/                        # API, events, replay, charts
 │   └── store/maintenance-store.ts  # Stream + inference state
+├── public/icons/                   # PWA 192 / 512 (cog mark)
+├── public/site.webmanifest
 ├── readme_model.md                 # README style reference
+├── .env.example                    # Vercel + local reference
 └── .env.local.example
 ```
 
