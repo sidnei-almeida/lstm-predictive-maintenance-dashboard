@@ -1,0 +1,2579 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-display);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-xl: 0;
+  --radius-2xl: 0;
+  --radius-3xl: 0;
+  --radius-4xl: 0;
+}
+
+/* Retro industrial control-panel tokens */
+:root {
+  --retro-black: #050505;
+  --retro-black-soft: #080806;
+  --retro-panel-dark: #0e0d08;
+  --retro-olive: #151309;
+
+  --retro-cream: #000000;
+  --retro-cream-alt: #050505;
+  --retro-cream-deep: #0a0a0a;
+
+  --retro-surface: #000000;
+  --retro-surface-soft: #050505;
+  --retro-surface-inset: #0a0a0a;
+
+  --retro-border: #333333;
+  --retro-border-strong: #333333;
+  --retro-border-muted: #222222;
+
+  --retro-text: #ffffff;
+  --retro-text-mid: #cccccc;
+  --retro-text-muted: #888888;
+  --retro-text-dim: #666666;
+  --retro-txt-primary: #ffffff;
+  --retro-txt-secondary: #888888;
+  --retro-txt-muted: #666666;
+  --retro-txt-metadata: #707070;
+  --retro-txt-gold: #ffaa00;
+  --retro-title: #ffaa00;
+  --retro-subtitle: #666666;
+
+  --retro-gold: #c9a227;
+  --retro-gold-dark: #b68b16;
+  --retro-gold-bright: #d6b63a;
+  --retro-gold-olive: #5a4b10;
+  --retro-gold-deep: #3a320c;
+
+  --retro-red: #9d2e22;
+  --retro-red-bright: #b13a2e;
+  --retro-red-soft: #d0644f;
+
+  --retro-green: #3f6b3f;
+  --retro-green-bright: #4f7a45;
+
+  --retro-muted: #8a7a4a;
+  --retro-muted-light: #b6a978;
+
+  --retro-sidebar-text: #b6a978;
+  --retro-sidebar-active: #d6b63a;
+
+  /* Countach 1988 — Blackout Tiling Manager (global semantic map) */
+  --countach-bg: #000000;
+  --countach-bg-elevated: #050505;
+  --countach-border: #333333;
+  --countach-border-dim: #222222;
+  --countach-amber: #ffaa00;
+  --countach-muted: #888888;
+  --countach-white: #ffffff;
+  --countach-green: #00ff00;
+  --countach-red: #ff0000;
+  --countach-grid-gap: 3px;
+
+  --background: var(--countach-bg);
+  --foreground: var(--countach-muted);
+  --card: var(--countach-bg);
+  --card-foreground: var(--countach-white);
+  --popover: var(--countach-bg-elevated);
+  --popover-foreground: var(--countach-white);
+  --primary: var(--countach-bg-elevated);
+  --primary-foreground: var(--countach-amber);
+  --secondary: var(--countach-bg-elevated);
+  --secondary-foreground: var(--countach-muted);
+  --muted: var(--countach-bg-elevated);
+  --muted-foreground: var(--countach-muted);
+  --accent: var(--countach-bg-elevated);
+  --accent-foreground: var(--countach-white);
+  --destructive: var(--countach-red);
+  --border: var(--countach-border);
+  --input: var(--countach-border-dim);
+  --ring: var(--countach-amber);
+  --radius: 0;
+
+  --sidebar: var(--retro-black);
+  --sidebar-foreground: var(--retro-sidebar-text);
+  --sidebar-primary: var(--retro-gold);
+  --sidebar-primary-foreground: var(--retro-black);
+  --sidebar-accent: var(--retro-gold-deep);
+  --sidebar-accent-foreground: var(--retro-gold-bright);
+  --sidebar-border: var(--retro-gold-olive);
+  --sidebar-ring: var(--retro-gold);
+
+  --font-display: Georgia, "Times New Roman", Times, serif;
+
+  /* Top strip summary KPI cards (dashboard, analytics, alerts) */
+  --top-kpi-bg: #0a0a0a;
+  --top-kpi-border: #c3a85a;
+  --top-kpi-label: #b79a46;
+  --top-kpi-value: #f2ebdd;
+  --top-kpi-muted: #d4c6a1;
+  --top-kpi-success: #6f8b5e;
+  --top-kpi-danger: #a43a2c;
+  --top-kpi-gold: #c59a1b;
+
+  /* Top status strip (header controls) */
+  --topbar-text: #dcc99a;
+  --topbar-text-soft: #ebe2c4;
+  --topbar-border: #d4bc78;
+  --topbar-btn-bg: #0e0d08;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/40;
+    border-radius: 0;
+  }
+  body {
+    @apply bg-[#000000] text-foreground antialiased;
+    font-feature-settings: "tnum" 1;
+  }
+  html {
+    @apply font-sans;
+  }
+}
+
+@layer components {
+  .retro-canvas {
+    background-color: #000000;
+  }
+
+  /* Typography scale — retro technical panels */
+  .retro-txt-primary {
+    color: var(--retro-txt-primary);
+  }
+
+  .retro-txt-secondary {
+    color: var(--retro-txt-secondary);
+  }
+
+  .retro-txt-muted {
+    color: var(--retro-txt-muted);
+  }
+
+  .retro-txt-metadata {
+    color: var(--retro-txt-metadata);
+  }
+
+  .retro-txt-gold {
+    color: var(--retro-txt-gold);
+  }
+
+  .retro-txt-danger {
+    color: var(--retro-red);
+  }
+
+  .retro-txt-success {
+    color: var(--retro-green-bright);
+  }
+
+  /* Card titles (panel headers) */
+  .card-title,
+  .retro-panel-title {
+    font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      monospace;
+    font-size: 0.625rem;
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--retro-title);
+  }
+
+  @media (min-width: 1280px) {
+    .card-title,
+    .retro-panel-title {
+      font-size: 0.6875rem;
+    }
+  }
+
+  /* Card subtitles */
+  .card-subtitle,
+  .retro-panel-desc {
+    margin-top: 0.25rem;
+    font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      monospace;
+    font-size: 0.5rem;
+    line-height: 1.2;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: none;
+    color: var(--retro-subtitle);
+  }
+
+  /* Micro labels inside cards */
+  .micro-label,
+  .retro-label {
+    font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      monospace;
+    font-size: 0.5rem;
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--retro-txt-muted);
+  }
+
+  .micro-label-xs {
+    font-size: 0.4375rem;
+    letter-spacing: 0.14em;
+  }
+
+  /* Primary values (status, large numbers) */
+  .primary-value,
+  .retro-display {
+    font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      monospace;
+    font-size: 1.375rem;
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+    color: var(--retro-txt-primary);
+  }
+
+  .primary-value-sm {
+    font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      monospace;
+    font-size: 0.9375rem;
+    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+    color: var(--retro-txt-primary);
+  }
+
+  .primary-value-lg {
+    font-size: 1.375rem;
+    line-height: 1;
+  }
+
+  /* Secondary values (KPIs, table cells, inline data) */
+  .secondary-value,
+  .retro-value {
+    font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      monospace;
+    font-size: 0.875rem;
+    line-height: 1.15;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    font-variant-numeric: tabular-nums;
+    color: var(--retro-txt-primary);
+  }
+
+  /* Metadata / footnotes */
+  .metadata-text,
+  .retro-meta {
+    font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      monospace;
+    font-size: 0.5rem;
+    line-height: 1.25;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--retro-txt-metadata);
+  }
+
+  .card-footnote {
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.5rem;
+    line-height: 1.3;
+    letter-spacing: 0.04em;
+    color: var(--retro-txt-metadata);
+  }
+
+  /* Table headers */
+  .table-head {
+    font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      monospace;
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--retro-txt-secondary);
+  }
+
+  /* KPI card label (same as micro-label, explicit alias) */
+  .kpi-label {
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.5rem;
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--retro-txt-muted);
+  }
+
+  .retro-panel {
+    display: flex;
+    min-height: 0;
+    flex-direction: column;
+    border: 1px solid var(--countach-border);
+    background: var(--countach-bg);
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  .retro-panel-header {
+    display: flex;
+    flex-shrink: 0;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.375rem;
+    border-bottom: 1px solid var(--countach-border-dim);
+    padding: 0.5rem 0.625rem;
+    background: var(--countach-bg);
+    border-radius: 0;
+  }
+
+  .retro-panel-body {
+    padding: 0.625rem;
+  }
+
+  .retro-kpi {
+    border: 1px solid var(--countach-border);
+    background: var(--countach-bg);
+    padding: 0.375rem 0.5rem;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  /* Horizontal summary KPI strip — black + gold instrument panels */
+  .top-kpi-card {
+    display: flex;
+    min-height: 3.25rem;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 0.375rem;
+    border: none;
+    border-radius: 0;
+    background: var(--top-kpi-bg);
+    padding: 10px 14px 12px;
+    box-shadow: inset 0 0 0 0.5px color-mix(in srgb, var(--top-kpi-border) 38%, transparent);
+  }
+
+  .top-kpi-label {
+    font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      monospace;
+    font-size: 10px;
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--top-kpi-label);
+  }
+
+  .top-kpi-value {
+    font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      monospace;
+    font-size: 1.125rem;
+    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+    color: var(--top-kpi-value);
+  }
+
+  @media (min-width: 640px) {
+    .top-kpi-value {
+      font-size: 1.25rem;
+    }
+  }
+
+  .top-kpi-value--gold {
+    color: var(--top-kpi-gold);
+  }
+
+  .top-kpi-value--success {
+    color: var(--top-kpi-success);
+  }
+
+  .top-kpi-value--danger {
+    color: var(--top-kpi-danger);
+  }
+
+  .top-kpi-value--muted {
+    color: var(--top-kpi-muted);
+  }
+
+  /* Dashboard KPI row — 1980s VFD / LED terminal */
+  .vfd-kpi-card {
+    display: flex;
+    min-height: 3.25rem;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 0.375rem;
+    border: 1px solid #222222;
+    border-radius: 0;
+    background: #000000;
+    padding: 10px 14px 12px;
+    box-shadow:
+      inset 0 0 0 1px rgb(0 255 0 / 4%),
+      inset 0 2px 10px rgb(0 0 0 / 90%),
+      inset 0 -1px 6px rgb(0 0 0 / 75%);
+  }
+
+  .vfd-kpi-label {
+    font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      monospace;
+    font-size: 10px;
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #666666;
+  }
+
+  .vfd-kpi-value {
+    font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      monospace;
+    font-size: 1.125rem;
+    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    font-variant-numeric: tabular-nums;
+    text-transform: uppercase;
+  }
+
+  @media (min-width: 640px) {
+    .vfd-kpi-value {
+      font-size: 1.25rem;
+    }
+  }
+
+  .vfd-kpi-value--status-positive {
+    color: #00ff00;
+    text-shadow:
+      0 0 8px rgb(0 255 0 / 40%),
+      0 0 2px rgb(0 255 0 / 70%);
+  }
+
+  .vfd-kpi-value--status-negative {
+    color: #ff0000;
+    text-shadow:
+      0 0 8px rgb(255 0 0 / 40%),
+      0 0 2px rgb(255 0 0 / 65%);
+  }
+
+  .vfd-kpi-value--numeric {
+    color: #ffaa00;
+    text-shadow:
+      0 0 8px rgb(255 170 0 / 35%),
+      0 0 2px rgb(255 170 0 / 55%);
+  }
+
+  .vfd-kpi-value--dim {
+    color: #333333;
+    text-shadow: none;
+  }
+
+  /* Asset Health Overview — packed instrument cluster */
+  .asset-health-body {
+    gap: 1.25rem;
+    padding: 0.75rem;
+  }
+
+  @media (min-width: 1024px) {
+    .asset-health-body {
+      gap: 1.5rem;
+      padding: 0.875rem;
+    }
+  }
+
+  .asset-health-vfd-gauge {
+    border: 1px solid #222222;
+    border-radius: 0;
+    background: #000000;
+    padding: 0.5rem;
+    box-shadow: inset 0 2px 8px rgb(0 0 0 / 85%);
+  }
+
+  .asset-health-vfd-segments {
+    display: flex;
+    width: 100%;
+    gap: 3px;
+  }
+
+  .asset-health-vfd-segments .asset-health-vfd-seg {
+    height: 1.125rem;
+    max-width: none;
+    min-width: 0;
+    flex: 1 1 0;
+    border-radius: 0;
+  }
+
+  .asset-health-led-matrix {
+    border-radius: 0;
+  }
+
+  .asset-health-led-module {
+    border: 1px solid #222222;
+    border-radius: 0;
+    background: #000000;
+    padding: 0.5rem 0.625rem;
+  }
+
+  .asset-health-led {
+    display: block;
+    height: 10px;
+    width: 10px;
+    flex-shrink: 0;
+    border-radius: 0;
+  }
+
+  .asset-health-led--on {
+    background: #00ff00;
+    box-shadow:
+      0 0 6px rgb(0 255 0 / 60%),
+      0 0 2px rgb(0 255 0 / 80%);
+  }
+
+  .asset-health-led--off {
+    background: #222222;
+    box-shadow: none;
+  }
+
+  .asset-health-led-label {
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.5rem;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #666666;
+  }
+
+  .asset-health-strip {
+    flex-shrink: 0;
+    border: 1px solid #333333;
+    background: #000000;
+  }
+
+  .asset-health-strip-value {
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .asset-health-strip-value--amber {
+    color: #ffaa00;
+  }
+
+  .asset-health-strip-value--green {
+    color: #00ff00;
+  }
+
+  .asset-health-strip-value--danger {
+    color: #ff0000;
+  }
+
+  .asset-health-strip-value--dim {
+    color: #333333;
+  }
+
+  .asset-health-footer {
+    flex-shrink: 0;
+  }
+
+  /* Machine Condition — dual-bank sensor array */
+  .machine-condition-body {
+    min-height: 0;
+  }
+
+  .machine-condition-module {
+    border: 1px solid #222222;
+    background: #000000;
+    padding: 0.5rem 0.625rem;
+  }
+
+  .machine-condition-sensor-label {
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #666666;
+  }
+
+  .machine-condition-sensor-unit {
+    margin-top: 0.125rem;
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.4375rem;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #3a3a3a;
+  }
+
+  .machine-condition-sensor-value {
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+    color: #ffaa00;
+    text-shadow: 0 0 8px rgb(255 170 0 / 28%);
+  }
+
+  .machine-condition-sensor-value--dim {
+    color: #333333;
+    text-shadow: none;
+  }
+
+  .machine-condition-led--on {
+    background: #ffaa00;
+    box-shadow: 0 0 4px rgb(255 170 0 / 50%);
+  }
+
+  .machine-condition-led--off {
+    background: #333333;
+  }
+
+  .machine-condition-summary-label {
+    display: block;
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.4375rem;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #666666;
+  }
+
+  .machine-condition-summary-value {
+    display: block;
+    margin-top: 0.25rem;
+    overflow-wrap: anywhere;
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.5625rem;
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .machine-condition-summary-value--green {
+    color: #00ff00;
+    text-shadow: 0 0 6px rgb(0 255 0 / 35%);
+  }
+
+  .machine-condition-summary-value--amber {
+    color: #ffaa00;
+    text-shadow: 0 0 6px rgb(255 170 0 / 30%);
+  }
+
+  .machine-condition-summary-value--danger {
+    color: #ff0000;
+    text-shadow: 0 0 6px rgb(255 0 0 / 35%);
+  }
+
+  .machine-condition-summary-value--dim {
+    color: #333333;
+    text-shadow: none;
+  }
+
+  .retro-inset {
+    border: 1px solid var(--countach-border);
+    background: var(--countach-bg-elevated);
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  .retro-field-box {
+    border: 1px solid var(--countach-border);
+    background: var(--countach-bg-elevated);
+    padding: 0.375rem 0.5rem;
+    border-radius: 0;
+  }
+
+  .retro-divider {
+    border-top: 1px solid var(--countach-border-dim);
+  }
+
+  /* Sequence buffer register grid */
+  .retro-buffer-grid {
+    display: grid;
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+    gap: 2px;
+    padding: 2px;
+    border: 1px solid var(--countach-border-dim);
+    background: var(--countach-bg-elevated);
+  }
+
+  .retro-buffer-cell {
+    aspect-ratio: 1.15;
+    min-height: 0.625rem;
+    border: none;
+    transition: background-color 100ms ease;
+  }
+
+  .retro-buffer-cell--empty {
+    background: #f2e7d2;
+  }
+
+  .retro-buffer-cell--filled {
+    background: #d4b04a;
+  }
+
+  .retro-buffer-cell--tail {
+    background: #c9a227;
+  }
+
+  .retro-buffer-cell--active {
+    background: #b68b16;
+  }
+
+  .retro-buffer-cell--risk {
+    background: #c45a4a;
+  }
+
+  .retro-tag {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--retro-border-strong);
+    padding: 0.125rem 0.375rem;
+    font-size: 0.5625rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+
+  .retro-tag-gold {
+    border-color: var(--retro-gold-dark);
+    background: var(--retro-black);
+    color: var(--retro-gold-bright);
+  }
+
+  .retro-tag-green {
+    border-color: var(--retro-green);
+    color: var(--retro-green);
+    background: var(--retro-surface);
+  }
+
+  .retro-tag-red {
+    border-color: var(--retro-red);
+    color: var(--retro-red-bright);
+    background: var(--retro-surface);
+  }
+
+  .retro-tag-neutral {
+    border-color: var(--countach-border);
+    color: var(--countach-muted);
+    background: var(--countach-bg-elevated);
+  }
+
+  .retro-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    border: 1px solid var(--retro-border-strong);
+    padding: 0.25rem 0.625rem;
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
+  }
+
+  .retro-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .retro-btn-primary {
+    border-color: var(--retro-gold-dark);
+    background: var(--retro-black);
+    color: var(--retro-gold-bright);
+  }
+
+  .retro-btn-primary:hover:not(:disabled) {
+    background: var(--retro-gold-deep);
+    color: var(--retro-gold-bright);
+  }
+
+  .retro-btn-outline {
+    border-color: var(--retro-border-strong);
+    background: var(--retro-surface);
+    color: var(--retro-text-mid);
+  }
+
+  .retro-btn-outline:hover:not(:disabled) {
+    border-color: var(--countach-amber);
+    background: var(--countach-bg-elevated);
+    color: var(--countach-amber);
+  }
+
+  .retro-btn-danger {
+    border-color: var(--retro-red);
+    background: var(--retro-surface);
+    color: var(--retro-red-bright);
+  }
+
+  .retro-btn-danger:hover:not(:disabled) {
+    background: #f0ddd9;
+  }
+
+  .retro-callout {
+    border: 1px solid var(--retro-gold-olive);
+    background: var(--retro-black);
+    padding: 0.625rem 0.75rem;
+    color: var(--retro-gold-bright);
+  }
+
+  .retro-callout-label {
+    font-size: 0.5625rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--retro-muted-light);
+  }
+
+  .retro-callout-text {
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  .retro-table-row:hover {
+    background: #0a0a0a;
+  }
+
+  .retro-pipeline-cell {
+    flex: 1;
+    min-width: 0;
+    border: 1px solid var(--countach-border);
+    background: var(--countach-bg);
+    padding: 0.3125rem 0.4375rem;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  /* Topbar — Countach cockpit control strip */
+  .countach-topbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    border-bottom: 1px solid #1a1a1a;
+    background: #000000;
+    padding: 0.5rem 1rem;
+    border-radius: 0;
+  }
+
+  .countach-topbar-context {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.25rem;
+  }
+
+  .countach-topbar-context span {
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.5625rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #707070;
+    border-radius: 0;
+  }
+
+  .countach-topbar-cluster {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+
+  .countach-topbar-clock {
+    display: inline-flex;
+    min-height: 1.75rem;
+    align-items: center;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid #2a2a2a;
+    border-top-color: #383838;
+    border-bottom-color: #111111;
+    background: #050505;
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.5rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #b8a070;
+    font-variant-numeric: tabular-nums;
+    box-shadow: inset 0 1px 0 #141414;
+    border-radius: 0;
+  }
+
+  .countach-topbar-readout {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    min-height: 1.75rem;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid #2a2a2a;
+    border-top-color: #383838;
+    border-bottom-color: #111111;
+    background: #050505;
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.5rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #c9a878;
+    box-shadow: inset 0 1px 0 #141414;
+    border-radius: 0;
+  }
+
+  .countach-topbar-led {
+    display: inline-block;
+    height: 5px;
+    width: 5px;
+    flex-shrink: 0;
+    background: #2a2a2a;
+    border-radius: 0;
+  }
+
+  .countach-topbar-led--on {
+    background: #4cd964;
+    box-shadow: 0 0 6px rgb(76 217 100 / 70%);
+  }
+
+  .countach-topbar-led--warn {
+    background: #ffaa00;
+    box-shadow: 0 0 6px rgb(255 170 0 / 60%);
+  }
+
+  .countach-topbar-led--off {
+    background: #3a3a3a;
+  }
+
+  .countach-topbar-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.375rem;
+  }
+
+  /* Physical dash switches — 80s supercar */
+  .countach-dash-btn {
+    display: inline-flex;
+    min-height: 1.875rem;
+    min-width: 4.25rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    padding: 0.375rem 0.625rem;
+    border: 1px solid #2e2e2e;
+    border-top-color: #454545;
+    border-left-color: #3d3d3d;
+    border-right-color: #1c1c1c;
+    border-bottom-color: #101010;
+    background: #0a0a0a;
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.5rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #b8a070;
+    box-shadow:
+      inset 0 1px 0 #1c1c1c,
+      0 1px 0 #000000;
+    cursor: pointer;
+    border-radius: 0;
+    transition:
+      color 80ms linear,
+      background 80ms linear,
+      border-color 80ms linear,
+      box-shadow 80ms linear,
+      transform 80ms linear;
+  }
+
+  .countach-dash-btn-glyph {
+    flex-shrink: 0;
+    font-size: 0.5625rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    color: inherit;
+    opacity: 0.9;
+  }
+
+  .countach-dash-btn:hover:not(:disabled) {
+    color: #ffcc66;
+    border-top-color: #5a5a5a;
+  }
+
+  .countach-dash-btn:active:not(:disabled) {
+    border-top-color: #101010;
+    border-bottom-color: #454545;
+    background: #050505;
+    box-shadow: inset 0 2px 4px #000000;
+    transform: translateY(1px);
+  }
+
+  .countach-dash-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.38;
+  }
+
+  .countach-dash-btn--run {
+    min-width: 5.5rem;
+    border-color: #4a3d18;
+    border-top-color: #6a5828;
+    border-bottom-color: #1a1408;
+    background: #141008;
+    color: #ffaa00;
+  }
+
+  .countach-dash-btn--run:hover:not(:disabled) {
+    color: #ffcc55;
+    background: #1a1608;
+  }
+
+  .countach-dash-btn--danger {
+    border-color: #4a2820;
+    border-top-color: #6a3828;
+    border-bottom-color: #1a0c08;
+    background: #120808;
+    color: #ff5530;
+  }
+
+  .countach-dash-btn--danger:hover:not(:disabled) {
+    color: #ff7755;
+  }
+
+  .retro-header-title {
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--countach-amber);
+    line-height: 1.15;
+  }
+
+  .retro-header-sub {
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.5rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--countach-muted);
+  }
+
+  /* Sequence buffer — 80s/90s supercar digital instrument cluster */
+  .supercar-seq-panel {
+    border-color: color-mix(in srgb, #d4a84a 35%, #1a1814);
+    background: #050504;
+    box-shadow: inset 0 1px 0 rgb(255 210 120 / 4%);
+  }
+
+  .supercar-seq-panel .retro-panel-header {
+    border-bottom: 1px solid color-mix(in srgb, #d4a84a 22%, transparent);
+    background: linear-gradient(180deg, #121110 0%, #080807 100%);
+    padding: 0.625rem 0.875rem 0.5rem;
+  }
+
+  .supercar-seq-panel .card-title {
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: #e8b84a;
+    text-shadow: 0 0 14px rgb(232 184 74 / 35%);
+  }
+
+  .supercar-seq-panel .card-subtitle {
+    margin-top: 0.2rem;
+    font-size: 0.4375rem;
+    letter-spacing: 0.1em;
+    text-transform: none;
+    color: #7a6840;
+  }
+
+  .supercar-seq-panel .retro-panel-body {
+    background:
+      linear-gradient(165deg, rgb(255 255 255 / 2%) 0%, transparent 40%),
+      linear-gradient(180deg, #0a0908 0%, #050504 100%);
+    padding: 0;
+  }
+
+  .supercar-gauge-bay {
+    margin: 0.75rem 0.75rem 0;
+    padding: 0.75rem 0.875rem 0.875rem;
+    border: 1px solid color-mix(in srgb, #d4a84a 32%, transparent);
+    background: linear-gradient(180deg, #0e0d0b 0%, #060605 100%);
+    box-shadow:
+      inset 0 1px 0 rgb(255 210 120 / 7%),
+      inset 0 -12px 24px rgb(0 0 0 / 55%),
+      0 0 18px rgb(212 168 74 / 6%);
+  }
+
+  .supercar-lcd-readout {
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #ffb347;
+    text-shadow:
+      0 0 8px rgb(255 179 71 / 60%),
+      0 0 20px rgb(255 140 40 / 28%);
+  }
+
+  .supercar-lcd-readout--hero {
+    font-size: 1.75rem;
+    line-height: 1;
+    letter-spacing: 0.08em;
+  }
+
+  .supercar-lcd-readout--risk {
+    color: #ff6640;
+    text-shadow:
+      0 0 10px rgb(255 102 64 / 70%),
+      0 0 22px rgb(204 40 16 / 35%);
+  }
+
+  .supercar-lcd-dim {
+    color: color-mix(in srgb, #ffb347 45%, #3a3020);
+    text-shadow: 0 0 6px rgb(255 179 71 / 20%);
+  }
+
+  .supercar-lcd-label {
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.4375rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #9a8450;
+  }
+
+  .supercar-progress-track {
+    height: 0.375rem;
+    width: 100%;
+    border: 1px solid rgb(40 35 25 / 80%);
+    background: #080807;
+    box-shadow: inset 0 1px 3px rgb(0 0 0 / 80%);
+  }
+
+  .supercar-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #c98a20 0%, #ffb347 55%, #ffd080 100%);
+    box-shadow:
+      0 0 10px rgb(255 179 71 / 55%),
+      0 0 18px rgb(255 140 40 / 30%);
+    transition: width 280ms ease;
+  }
+
+  .supercar-segments-frame {
+    border: 1px solid color-mix(in srgb, #d4a84a 38%, transparent);
+    background: rgb(0 0 0 / 25%);
+    box-shadow:
+      0 0 14px rgb(212 168 74 / 8%),
+      inset 0 0 20px rgb(0 0 0 / 50%);
+  }
+
+  .supercar-lcd-well {
+    position: relative;
+    overflow: hidden;
+    background: #020302;
+    box-shadow: inset 0 0 28px rgb(0 0 0 / 92%);
+  }
+
+  .supercar-lcd-well::after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgb(0 0 0 / 14%) 2px,
+      rgb(0 0 0 / 14%) 4px
+    );
+  }
+
+  /* VFD phosphor — histórico quase apagado, recente/active em neon */
+  .supercar-led-empty {
+    background: #030403;
+    border: 1px solid rgb(50 70 45 / 10%);
+    box-shadow: inset 0 1px 2px rgb(0 0 0 / 70%);
+  }
+
+  .supercar-led-filled {
+    background: #0a1408;
+    border: 1px solid rgb(45 75 40 / 18%);
+    box-shadow: inset 0 0 2px rgb(20 50 18 / 30%);
+  }
+
+  .supercar-led-tail {
+    background: linear-gradient(180deg, #3dba36 0%, #289022 100%);
+    border: 1px solid #52d84c;
+    box-shadow:
+      0 0 8px rgb(82 216 76 / 55%),
+      0 0 14px rgb(60 200 50 / 30%);
+  }
+
+  .supercar-led-active {
+    background: linear-gradient(180deg, #6ef060 0%, #3dba36 100%);
+    border: 1px solid #8cff84;
+    box-shadow:
+      0 0 12px rgb(110 240 96 / 75%),
+      0 0 24px rgb(82 216 76 / 45%);
+  }
+
+  .supercar-led-risk {
+    background: linear-gradient(180deg, #ff6a48 0%, #cc2810 100%);
+    border: 1px solid #ff8868;
+    box-shadow:
+      0 0 12px rgb(255 90 50 / 70%),
+      0 0 22px rgb(204 40 16 / 40%);
+  }
+
+  .supercar-led-blink {
+    animation: supercar-led-pulse 1.1s ease-in-out infinite;
+  }
+
+  @keyframes supercar-led-pulse {
+    0%,
+    100% {
+      opacity: 1;
+      filter: brightness(1);
+    }
+    50% {
+      opacity: 0.88;
+      filter: brightness(1.18);
+    }
+  }
+
+  .supercar-status-led {
+    display: inline-block;
+    height: 7px;
+    width: 7px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #1a2018;
+    box-shadow: inset 0 0 2px rgb(0 0 0 / 80%);
+  }
+
+  .supercar-status-led--on {
+    background: #4cd842;
+    box-shadow: 0 0 8px rgb(76 216 66 / 80%);
+  }
+
+  .supercar-status-led--warn {
+    background: #ffb347;
+    box-shadow: 0 0 8px rgb(255 179 71 / 75%);
+  }
+
+  .supercar-status-led--risk {
+    background: #ff4420;
+    box-shadow: 0 0 10px rgb(255 68 32 / 85%);
+    animation: supercar-led-pulse 0.75s ease-in-out infinite;
+  }
+
+  .supercar-tag {
+    display: inline-block;
+    border: 1px solid color-mix(in srgb, #d4a84a 45%, transparent);
+    background: rgb(0 0 0 / 50%);
+    padding: 0.1875rem 0.5rem;
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    color: #ffb347;
+    text-shadow: 0 0 10px rgb(255 179 71 / 40%);
+  }
+
+  .supercar-tag--risk {
+    border-color: color-mix(in srgb, #ff5530 50%, transparent);
+    color: #ff6640;
+    text-shadow: 0 0 10px rgb(255 102 64 / 50%);
+  }
+
+  .supercar-telemetry-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    margin: 0 0.75rem;
+    border: 1px solid color-mix(in srgb, #d4a84a 28%, transparent);
+    background: color-mix(in srgb, #d4a84a 28%, transparent);
+  }
+
+  .supercar-telemetry-cell {
+    background: #070706;
+    padding: 0.5rem 0.375rem;
+    text-align: center;
+  }
+
+  .supercar-telemetry-value {
+    margin-top: 0.25rem;
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.5625rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: #e8c878;
+    text-shadow: 0 0 8px rgb(232 200 120 / 25%);
+  }
+
+  .supercar-telemetry-value--active {
+    color: #ffb347;
+    text-shadow: 0 0 10px rgb(255 179 71 / 45%);
+  }
+
+  .supercar-panel-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0.875rem 0.625rem;
+    color: #6a5c38;
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.4375rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .supercar-panel-foot summary {
+    cursor: pointer;
+    list-style: none;
+    color: #7a6840;
+  }
+
+  .supercar-panel-foot summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .supercar-panel-foot-star {
+    color: color-mix(in srgb, #d4a84a 55%, transparent);
+    text-shadow: 0 0 8px rgb(212 168 74 / 35%);
+  }
+
+  /* Risk drivers — supercar segmented signal panel */
+  .supercar-risk-panel {
+    width: 100%;
+    border-color: color-mix(in srgb, #d4a84a 30%, #1a1814);
+    background: #000000;
+    box-shadow: inset 0 1px 0 rgb(255 210 120 / 4%);
+  }
+
+  .supercar-risk-panel .retro-panel-header {
+    border-bottom: 1px solid color-mix(in srgb, #ffb86c 20%, transparent);
+    background: #000000;
+    padding: 0.75rem 1rem 0.625rem;
+  }
+
+  .supercar-risk-panel .card-title {
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: #ffb86c;
+    text-shadow: 0 0 12px rgb(255 184 108 / 45%);
+  }
+
+  .supercar-risk-panel .card-subtitle {
+    margin-top: 0.25rem;
+    font-size: 0.5rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: none;
+    color: color-mix(in srgb, #ffb86c 55%, #5a5030);
+  }
+
+  .supercar-risk-panel .retro-panel-body {
+    background: #000000;
+    padding: 0;
+  }
+
+  .supercar-risk-list {
+    display: flex;
+    min-height: 0;
+    flex: 1;
+    flex-direction: column;
+  }
+
+  .supercar-risk-row {
+    display: grid;
+    min-height: 3rem;
+    flex: 1;
+    grid-template-columns: 3px minmax(0, 36%) minmax(4.75rem, 24%) minmax(0, 1fr);
+    align-items: center;
+    column-gap: 0.875rem;
+    border-bottom: 1px solid color-mix(in srgb, #ffb86c 14%, transparent);
+    padding: 0.5625rem 1rem 0.5625rem 0.625rem;
+  }
+
+  .supercar-risk-row:last-child {
+    border-bottom: none;
+  }
+
+  .supercar-risk-accent {
+    width: 3px;
+    flex-shrink: 0;
+    align-self: stretch;
+    border-radius: 0;
+  }
+
+  .supercar-risk-accent--high {
+    background: #ff3b30;
+    box-shadow: 0 0 8px rgb(255 59 48 / 55%);
+  }
+
+  .supercar-risk-accent--moderate {
+    background: #ffb347;
+    box-shadow: 0 0 8px rgb(255 179 71 / 45%);
+  }
+
+  .supercar-risk-accent--low {
+    background: #4cd964;
+    box-shadow: 0 0 8px rgb(76 217 100 / 45%);
+  }
+
+  .supercar-risk-accent--neutral {
+    background: #6a8a5a;
+    box-shadow: 0 0 6px rgb(106 138 90 / 35%);
+  }
+
+  .supercar-risk-accent--idle {
+    background: #3a3830;
+  }
+
+  .supercar-risk-main {
+    min-width: 0;
+  }
+
+  .supercar-risk-label {
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.4375rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #ffb86c;
+    text-shadow: 0 0 8px rgb(255 184 108 / 35%);
+  }
+
+  .supercar-risk-value {
+    margin-top: 0.25rem;
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.03em;
+    color: #ffb86c;
+    text-shadow:
+      0 0 10px rgb(255 184 108 / 55%),
+      0 0 20px rgb(255 140 60 / 25%);
+  }
+
+  .supercar-risk-badge-wrap {
+    display: flex;
+    justify-content: center;
+  }
+
+  .supercar-risk-badge {
+    flex-shrink: 0;
+    border: 1px solid;
+    padding: 0.25rem 0.5rem;
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.4375rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    background: rgb(0 0 0 / 50%);
+  }
+
+  .supercar-risk-badge::before {
+    content: "[ ";
+    opacity: 0.65;
+  }
+
+  .supercar-risk-badge::after {
+    content: " ]";
+    opacity: 0.65;
+  }
+
+  .supercar-risk-badge--high {
+    border-color: rgb(255 59 48 / 55%);
+    color: #ff5540;
+    text-shadow: 0 0 10px rgb(255 85 64 / 55%);
+  }
+
+  .supercar-risk-badge--moderate {
+    border-color: rgb(255 179 71 / 50%);
+    color: #ffb347;
+    text-shadow: 0 0 10px rgb(255 179 71 / 45%);
+  }
+
+  .supercar-risk-badge--low {
+    border-color: rgb(76 217 100 / 45%);
+    color: #4cd964;
+    text-shadow: 0 0 10px rgb(76 217 100 / 45%);
+  }
+
+  .supercar-risk-badge--idle {
+    border-color: rgb(122 104 64 / 40%);
+    color: #7a6840;
+    text-shadow: none;
+  }
+
+  .supercar-risk-viz {
+    display: flex;
+    min-width: 0;
+    justify-content: flex-end;
+    padding-left: 0.25rem;
+  }
+
+  .supercar-risk-segments {
+    display: flex;
+    width: 100%;
+    max-width: 9.5rem;
+    align-items: flex-end;
+    justify-content: flex-end;
+    gap: 3px;
+  }
+
+  .supercar-risk-seg {
+    height: 1.375rem;
+    width: 5px;
+    flex: 1 1 0;
+    max-width: 6px;
+    min-width: 3px;
+    background: #0e0e0c;
+    border: 1px solid rgb(40 38 32 / 80%);
+    box-shadow: inset 0 1px 2px rgb(0 0 0 / 70%);
+  }
+
+  .supercar-risk-seg--high {
+    background: linear-gradient(180deg, #ff6a58 0%, #ff3b30 100%);
+    border-color: #ff8878;
+    box-shadow: 0 0 8px rgb(255 59 48 / 65%);
+  }
+
+  .supercar-risk-seg--high-dim {
+    background: linear-gradient(180deg, #4a1814 0%, #2a0c0a 100%);
+    border-color: rgb(120 30 20 / 60%);
+    box-shadow: 0 0 4px rgb(80 20 10 / 35%);
+  }
+
+  .supercar-risk-seg--moderate {
+    background: linear-gradient(180deg, #ffd080 0%, #ffb347 100%);
+    border-color: #ffc870;
+    box-shadow: 0 0 8px rgb(255 179 71 / 55%);
+  }
+
+  .supercar-risk-seg--moderate-dim {
+    background: linear-gradient(180deg, #3a2a10 0%, #221808 100%);
+    border-color: rgb(90 60 20 / 50%);
+    box-shadow: 0 0 3px rgb(60 40 10 / 25%);
+  }
+
+  .supercar-risk-seg--low {
+    background: linear-gradient(180deg, #6ef060 0%, #4cd964 100%);
+    border-color: #7ee878;
+    box-shadow: 0 0 8px rgb(76 217 100 / 50%);
+  }
+
+  .supercar-risk-seg--low-dim {
+    background: linear-gradient(180deg, #142818 0%, #0a1a0c 100%);
+    border-color: rgb(30 70 35 / 45%);
+    box-shadow: 0 0 3px rgb(20 50 25 / 20%);
+  }
+
+  .supercar-risk-dot-matrix {
+    display: flex;
+    width: 100%;
+    max-width: 9.5rem;
+    justify-content: flex-end;
+    gap: 4px;
+  }
+
+  .supercar-risk-dot-block {
+    display: grid;
+    grid-template-columns: repeat(5, 4px);
+    grid-template-rows: repeat(5, 4px);
+    gap: 2px;
+    padding: 3px;
+    border: 1px solid rgb(76 217 100 / 15%);
+    background: rgb(0 0 0 / 40%);
+  }
+
+  .supercar-risk-dot-block--active {
+    border-color: rgb(76 217 100 / 45%);
+    box-shadow: 0 0 8px rgb(76 217 100 / 15%);
+  }
+
+  .supercar-risk-dot {
+    height: 4px;
+    width: 4px;
+    border-radius: 0;
+    background: #0a1408;
+    border: 1px solid rgb(30 50 28 / 50%);
+  }
+
+  .supercar-risk-dot--dim {
+    background: #1a3020;
+    border-color: rgb(40 75 45 / 55%);
+    box-shadow: none;
+  }
+
+  .supercar-risk-dot--on {
+    background: #4cd964;
+    border-color: #6ee862;
+    box-shadow: 0 0 6px rgb(76 217 100 / 65%);
+  }
+
+  /* Dashboard view — 1988 Countach blackout tiling manager */
+  .retro-canvas:has(.countach-dashboard-blackout) {
+    background-color: #000000;
+  }
+
+  .retro-canvas:has(.countach-dashboard-blackout) > main {
+    background-color: #000000;
+  }
+
+  .retro-canvas:has(.countach-dashboard-blackout) > header {
+    border-bottom-color: #333333;
+  }
+
+  /* Page title strip — blackout tiling */
+  .countach-header-title-strip {
+    border-bottom: 1px solid var(--countach-border-dim);
+    background: var(--countach-bg);
+  }
+
+  /* Dashboard hero — Countach background banner (home route only) */
+  @keyframes countach-hero-led-blink {
+    0%,
+    45% {
+      opacity: 1;
+      box-shadow:
+        0 0 4px #00ff00,
+        0 0 10px rgb(0 255 0 / 55%);
+    }
+
+    50%,
+    100% {
+      opacity: 0.15;
+      box-shadow: none;
+    }
+  }
+
+  .countach-dashboard-hero {
+    height: 11.25rem;
+    min-height: 11.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .countach-dashboard-hero {
+      height: 13.75rem;
+      min-height: 13.75rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .countach-dashboard-hero {
+      height: 17.5rem;
+      min-height: 17.5rem;
+    }
+  }
+
+  .countach-dashboard-hero__logo {
+    filter: drop-shadow(0 2px 8px rgb(0 0 0 / 0.65));
+  }
+
+  .countach-dashboard-hero__title {
+    margin: 0;
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: clamp(0.5625rem, 1vw + 0.35rem, 0.75rem);
+    font-weight: 800;
+    line-height: 1.3;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #ffaa00;
+    text-shadow: 0 1px 12px rgb(0 0 0 / 0.85);
+  }
+
+  .countach-dashboard-hero__subtitle {
+    margin: 0.5rem 0 0;
+    max-width: 36rem;
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: clamp(0.4375rem, 0.5vw + 0.3rem, 0.5rem);
+    font-weight: 500;
+    line-height: 1.45;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #888888;
+    text-shadow: 0 1px 10px rgb(0 0 0 / 0.9);
+  }
+
+  .countach-dashboard-hero__status--idle .countach-dashboard-hero__led {
+    background: #ff0000;
+    box-shadow: 0 0 6px rgb(255 0 0 / 55%);
+  }
+
+  .countach-dashboard-hero__status--live .countach-dashboard-hero__led {
+    background: #00ff00;
+    animation: countach-hero-led-blink 1.15s step-end infinite;
+  }
+
+  .countach-dashboard-hero__status--paused .countach-dashboard-hero__led {
+    background: #ffaa00;
+    box-shadow: 0 0 6px rgb(255 170 0 / 50%);
+  }
+
+  .countach-dashboard-hero__status--static .countach-dashboard-hero__led {
+    background: #ffaa00;
+    box-shadow: 0 0 6px rgb(255 170 0 / 45%);
+  }
+
+  /* Model overview spec plate — live API LED (override global square corners) */
+  .model-spec-plate-led {
+    border-radius: 9999px !important;
+    animation: countach-hero-led-blink 1.15s step-end infinite;
+    box-shadow: 0 0 6px rgb(0 255 0 / 55%);
+  }
+
+  .countach-dashboard-blackout {
+    --countach-bg: #000000;
+    --countach-bg-elevated: #050505;
+    --countach-border: #333333;
+    --countach-border-dim: #222222;
+    --countach-amber: #ffaa00;
+    --countach-white: #ffffff;
+    --countach-muted: #888888;
+    --countach-green: #4cd964;
+    --countach-red: #ff4444;
+
+    color: var(--countach-muted);
+    background-color: var(--countach-bg);
+  }
+
+  .countach-dashboard-blackout,
+  .countach-dashboard-blackout * {
+    border-radius: 0 !important;
+  }
+
+  /* Shared blackout tiles */
+  .countach-pipeline-strip {
+    border: 1px solid var(--countach-border);
+    background: var(--countach-bg);
+  }
+
+  .countach-tile-grid {
+    gap: 1px;
+    border: 1px solid var(--countach-border);
+    background: var(--countach-border);
+  }
+
+  .countach-tile {
+    border: 0;
+    background: var(--countach-bg);
+  }
+
+  .countach-row-divider {
+    border-bottom: 1px solid var(--countach-border-dim);
+  }
+
+  .countach-divider-y {
+    border-top: 1px solid var(--countach-border);
+    border-bottom: 1px solid var(--countach-border);
+  }
+
+  .countach-table-head-row {
+    border-color: var(--countach-border);
+  }
+
+  .countach-table-head {
+    border-bottom: 1px solid var(--countach-border) !important;
+    background: var(--countach-bg-elevated) !important;
+    color: var(--countach-muted) !important;
+  }
+
+  .countach-table-row {
+    border-color: var(--countach-border-dim) !important;
+    background: var(--countach-bg);
+  }
+
+  .countach-table-row--alt {
+    background: var(--countach-bg-elevated);
+  }
+
+  .countach-table-row:hover {
+    background: #0a0a0a;
+  }
+
+  /* Panels & cards */
+  .countach-dashboard-blackout .retro-panel,
+  .countach-dashboard-blackout .retro-panel-header,
+  .countach-dashboard-blackout .retro-panel-body,
+  .countach-dashboard-blackout .retro-inset,
+  .countach-dashboard-blackout .retro-field-box,
+  .countach-dashboard-blackout .retro-kpi,
+  .countach-dashboard-blackout .retro-pipeline-cell {
+    border-color: var(--countach-border);
+    background: var(--countach-bg);
+    box-shadow: none;
+  }
+
+  .countach-dashboard-blackout .retro-panel-header {
+    border-bottom-color: var(--countach-border-dim);
+  }
+
+  .countach-dashboard-blackout .retro-divider {
+    border-top-color: var(--countach-border-dim);
+  }
+
+  /* Typography inversion */
+  .countach-dashboard-blackout .card-title,
+  .countach-dashboard-blackout .retro-panel-title {
+    color: var(--countach-amber);
+  }
+
+  .countach-dashboard-blackout .card-subtitle,
+  .countach-dashboard-blackout .retro-panel-desc,
+  .countach-dashboard-blackout .micro-label,
+  .countach-dashboard-blackout .retro-label,
+  .countach-dashboard-blackout .kpi-label,
+  .countach-dashboard-blackout .retro-meta,
+  .countach-dashboard-blackout .metadata-text,
+  .countach-dashboard-blackout .card-footnote,
+  .countach-dashboard-blackout .table-head {
+    color: var(--countach-muted);
+  }
+
+  .countach-dashboard-blackout .retro-txt-secondary,
+  .countach-dashboard-blackout .retro-txt-metadata,
+  .countach-dashboard-blackout .retro-txt-muted {
+    color: var(--countach-muted);
+  }
+
+  .countach-dashboard-blackout .primary-value,
+  .countach-dashboard-blackout .primary-value-sm,
+  .countach-dashboard-blackout .secondary-value,
+  .countach-dashboard-blackout .retro-display,
+  .countach-dashboard-blackout .retro-value,
+  .countach-dashboard-blackout .retro-txt-primary {
+    color: var(--countach-white);
+  }
+
+  .countach-dashboard-blackout .retro-txt-gold {
+    color: var(--countach-amber);
+  }
+
+  .countach-dashboard-blackout .retro-txt-danger {
+    color: var(--countach-red);
+  }
+
+  .countach-dashboard-blackout .retro-txt-success {
+    color: var(--countach-green);
+  }
+
+  /* Tags, chips, callouts */
+  .countach-dashboard-blackout .retro-tag,
+  .countach-dashboard-blackout .retro-chip {
+    border-color: var(--countach-border);
+    background: var(--countach-bg-elevated);
+    color: var(--countach-muted);
+  }
+
+  .countach-dashboard-blackout .retro-tag-gold,
+  .countach-dashboard-blackout .retro-chip--active {
+    border-color: var(--countach-amber);
+    background: #0a0a0a;
+    color: var(--countach-amber);
+  }
+
+  .countach-dashboard-blackout .retro-tag-green {
+    border-color: #2a4a2a;
+    color: var(--countach-green);
+    background: var(--countach-bg-elevated);
+  }
+
+  .countach-dashboard-blackout .retro-tag-red {
+    border-color: #4a2020;
+    color: var(--countach-red);
+    background: var(--countach-bg-elevated);
+  }
+
+  .countach-dashboard-blackout .retro-callout {
+    border-color: var(--countach-border);
+    background: var(--countach-bg-elevated);
+    color: var(--countach-amber);
+  }
+
+  .countach-dashboard-blackout .retro-callout-label {
+    color: var(--countach-muted);
+  }
+
+  .countach-dashboard-blackout .retro-callout-text {
+    color: var(--countach-white);
+  }
+
+  /* Cream-backed utility classes from tokens — force blackout */
+  .countach-dashboard-blackout [class*="bg-[#F2E7D2]"],
+  .countach-dashboard-blackout [class*="bg-[#F7F0E2]"],
+  .countach-dashboard-blackout [class*="bg-[#EADDC4]"],
+  .countach-dashboard-blackout [class*="bg-[#F3EBDD]"],
+  .countach-dashboard-blackout [class*="bg-[#F5EDD8]"],
+  .countach-dashboard-blackout [class*="bg-[#FDFAF5]"] {
+    background-color: var(--countach-bg-elevated) !important;
+  }
+
+  .countach-dashboard-blackout .text-muted-foreground {
+    color: var(--countach-muted) !important;
+  }
+
+  .countach-dashboard-blackout .border-border,
+  .countach-dashboard-blackout .border-border\/60 {
+    border-color: var(--countach-border-dim) !important;
+  }
+
+  .countach-dashboard-blackout .recharts-wrapper,
+  .countach-dashboard-blackout .recharts-surface {
+    background: transparent !important;
+  }
+
+  .countach-dashboard-blackout .recharts-legend-item-text {
+    color: var(--countach-muted) !important;
+  }
+
+  .countach-dashboard-blackout .recharts-tooltip-wrapper {
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+  }
+
+  .countach-dashboard-blackout .recharts-tooltip-cursor,
+  .countach-dashboard-blackout .recharts-rectangle.recharts-tooltip-cursor {
+    fill: rgb(255 170 0 / 7%) !important;
+    stroke: #2a2a2a !important;
+  }
+
+  .countach-dashboard-blackout .recharts-active-bar .recharts-rectangle {
+    fill: rgb(255 170 0 / 22%) !important;
+    stroke: #ffaa00 !important;
+  }
+
+  .countach-dashboard-blackout .recharts-default-tooltip {
+    background-color: #000000 !important;
+    border: 1px solid #333333 !important;
+    box-shadow: none !important;
+  }
+
+  .countach-dashboard-blackout [class*="border-[#D2C29B]"],
+  .countach-dashboard-blackout [class*="border-[#EADDC4]"],
+  .countach-dashboard-blackout [class*="border-[#C7B57F]"] {
+    border-color: var(--countach-border-dim) !important;
+  }
+
+  .countach-dashboard-blackout [class*="text-[#5A4B10]"],
+  .countach-dashboard-blackout [class*="text-[#17150E]"] {
+    color: var(--countach-amber) !important;
+  }
+
+  .countach-dashboard-blackout [class*="text-[#4F7A45]"],
+  .countach-dashboard-blackout [class*="text-[#D4E8D0]"] {
+    color: var(--countach-green) !important;
+  }
+
+  .countach-dashboard-blackout [class*="text-[#9D2E22]"],
+  .countach-dashboard-blackout [class*="text-[#F0DDD9]"],
+  .countach-dashboard-blackout [class*="text-[#B13A2E]"] {
+    color: var(--countach-red) !important;
+  }
+
+  /* Supercar instrument panels — align borders to grid */
+  .countach-dashboard-blackout .supercar-seq-panel,
+  .countach-dashboard-blackout .supercar-risk-panel {
+    border-color: var(--countach-border);
+    background: var(--countach-bg);
+    box-shadow: none;
+  }
+
+  .countach-dashboard-blackout .countach-chart-panel.retro-panel {
+    border-color: var(--countach-border-dim);
+    background: var(--countach-bg);
+  }
+
+  .countach-dashboard-blackout .countach-chart-panel .retro-panel-header,
+  .countach-dashboard-blackout .countach-chart-panel .retro-panel-body,
+  .countach-dashboard-blackout .countach-chart-plot {
+    background: var(--countach-bg);
+  }
+
+  .countach-dashboard-blackout .countach-chart-panel .card-title {
+    color: var(--countach-amber);
+  }
+
+  .countach-dashboard-blackout .countach-chart-panel .card-subtitle {
+    color: var(--countach-muted);
+  }
+
+  /* Failure probability trend — tactical telemetry chart panel */
+  .countach-chart-panel.retro-panel {
+    border: 1px solid #1a1a1a;
+    background: #000000;
+    box-shadow: none;
+  }
+
+  .countach-chart-panel .retro-panel-header {
+    border-bottom: 1px solid #1a1a1a;
+    background: #000000;
+    padding: 0.625rem 0.75rem 0.5rem;
+  }
+
+  .countach-chart-panel .card-title {
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.5625rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #888888;
+  }
+
+  .countach-chart-panel .card-subtitle {
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.4375rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #666666;
+  }
+
+  .countach-chart-panel .retro-panel-body {
+    padding: 0;
+    background: #000000;
+  }
+
+  .countach-chart-plot {
+    background: #000000;
+    box-shadow:
+      inset 0 0 0 1px rgb(0 255 0 / 6%),
+      inset 0 3px 18px rgb(0 0 0 / 95%),
+      inset 0 -2px 10px rgb(0 0 0 / 85%),
+      inset 3px 0 12px rgb(0 0 0 / 70%),
+      inset -3px 0 12px rgb(0 0 0 / 70%);
+  }
+
+  .countach-chart-plot .recharts-wrapper,
+  .countach-chart-plot .recharts-surface {
+    background: #000000 !important;
+  }
+
+  /* Recharts hover — no white flash; subtle amber band on black plot */
+  .countach-chart-plot .recharts-tooltip-wrapper {
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  .countach-chart-plot .recharts-default-tooltip {
+    background-color: #000000 !important;
+    border: 1px solid #333333 !important;
+    box-shadow: none !important;
+  }
+
+  .countach-chart-plot .recharts-tooltip-cursor,
+  .countach-chart-plot .recharts-rectangle.recharts-tooltip-cursor {
+    fill: rgb(255 170 0 / 7%) !important;
+    stroke: #2a2a2a !important;
+  }
+
+  .countach-chart-plot .recharts-active-bar .recharts-rectangle {
+    fill: rgb(255 170 0 / 22%) !important;
+    stroke: #ffaa00 !important;
+    stroke-width: 1px;
+  }
+
+  .countach-chart-plot .recharts-pie-sector:focus {
+    outline: none;
+  }
+
+  .countach-chart-plot .recharts-layer:focus,
+  .countach-chart-plot .recharts-surface:focus {
+    outline: none;
+  }
+
+  /* VFD / LED telemetry line glow */
+  .countach-chart-plot .countach-vfd-line .recharts-curve,
+  .countach-chart-plot .recharts-line .recharts-curve {
+    filter: drop-shadow(0 0 2px #00ff00) drop-shadow(0 0 5px rgb(0 255 0 / 55%));
+  }
+
+  .countach-chart-plot .countach-vfd-bars .recharts-rectangle {
+    filter: drop-shadow(0 0 1px rgb(0 255 0 / 35%));
+  }
+
+  .countach-chart-plot .countach-vfd-dot {
+    filter: drop-shadow(0 0 2px #00ff00) drop-shadow(0 0 4px rgb(0 255 0 / 45%));
+  }
+
+  .countach-chart-plot .countach-vfd-dot--critical {
+    filter: drop-shadow(0 0 2px #ff0000) drop-shadow(0 0 6px rgb(255 0 0 / 65%));
+  }
+
+  /* Sidebar — 1988 Countach minimalist digital rail */
+  .countach-sidebar {
+    --countach-amber: #ffaa00;
+    --countach-sidebar-bg: #000000;
+    --countach-sidebar-muted: #707070;
+    --countach-sidebar-dim: #8a8a8a;
+
+    display: flex;
+    width: 14rem;
+    flex-shrink: 0;
+    flex-direction: column;
+    border-right: 1px solid #1a1a1a;
+    background: var(--countach-sidebar-bg);
+    color: var(--countach-sidebar-dim);
+    border-radius: 0;
+  }
+
+  .countach-sidebar-brand {
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    align-items: start;
+    gap: 0.75rem;
+    border-bottom: 1px solid #1a1a1a;
+    padding: 1rem 1rem 0.875rem;
+  }
+
+  .countach-sidebar-brand-glyph {
+    display: flex;
+    height: 2rem;
+    width: 2rem;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #2a2a2a;
+    background: #050505;
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    color: var(--countach-amber);
+    border-radius: 0;
+  }
+
+  .countach-sidebar-brand-text {
+    min-width: 0;
+    padding-top: 0.125rem;
+  }
+
+  .countach-sidebar-brand-title {
+    font-family: var(--font-sans), system-ui, sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--countach-amber);
+    border-radius: 0;
+  }
+
+  .countach-sidebar-brand-meta {
+    margin-top: 0.25rem;
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.4375rem;
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--countach-sidebar-muted);
+    border-radius: 0;
+  }
+
+  .countach-sidebar-section {
+    margin: 0;
+    padding: 0.75rem 1rem 0.5rem;
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.4375rem;
+    font-weight: 600;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: #8a8a8a;
+    border-radius: 0;
+  }
+
+  .countach-sidebar-nav {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0 0.5rem 0.75rem;
+  }
+
+  .countach-sidebar-link {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    align-items: center;
+    gap: 0;
+    min-height: 2.25rem;
+    border: none;
+    border-left: 4px solid transparent;
+    padding: 0.5rem 0.625rem 0.5rem 0.375rem;
+    text-decoration: none;
+    border-radius: 0;
+    transition:
+      background 100ms linear,
+      color 100ms linear,
+      border-color 100ms linear;
+  }
+
+  .countach-sidebar-link-glyph-wrap {
+    display: flex;
+    width: 2.5rem;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0;
+  }
+
+  .countach-sidebar-link-glyph {
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    color: var(--countach-sidebar-muted);
+    border-radius: 0;
+  }
+
+  .countach-sidebar-link-label {
+    font-family: var(--font-sans), system-ui, sans-serif;
+    font-size: 0.5625rem;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--countach-sidebar-dim);
+    border-radius: 0;
+  }
+
+  .countach-sidebar-link:hover {
+    background: transparent;
+    border-left-color: transparent;
+  }
+
+  .countach-sidebar-link:hover .countach-sidebar-link-glyph,
+  .countach-sidebar-link:hover .countach-sidebar-link-label {
+    color: var(--countach-amber);
+  }
+
+  .countach-sidebar-link--active {
+    border-left-color: var(--countach-amber);
+    background: rgb(255 170 0 / 5%);
+  }
+
+  .countach-sidebar-link--active .countach-sidebar-link-glyph,
+  .countach-sidebar-link--active .countach-sidebar-link-label {
+    color: var(--countach-amber);
+  }
+
+  .countach-sidebar-footer {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    border-top: 1px solid #1a1a1a;
+    padding: 0.75rem 1rem;
+    border-radius: 0;
+  }
+
+  .countach-sidebar-footer-logo {
+    display: flex;
+    height: 2rem;
+    width: 2rem;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #4a4a4a;
+    background: #050505;
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--countach-sidebar-dim);
+    border-radius: 0;
+  }
+
+  .countach-sidebar-footer-text {
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.4375rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--countach-sidebar-muted);
+    border-radius: 0;
+  }
+
+  .retro-chip {
+    border: 1px solid var(--countach-border);
+    padding: 0.25rem 0.5rem;
+    font-size: 0.5625rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--countach-muted);
+    background: var(--countach-bg-elevated);
+    border-radius: 0;
+  }
+
+  .retro-chip--active {
+    border-color: var(--countach-amber);
+    background: var(--countach-bg-elevated);
+    color: var(--countach-amber);
+  }
+
+  /* === 1988 Lamborghini Countach — Blackout Tiling Manager (global shell) === */
+  .countach-tiling-manager {
+    background: #000000;
+    color: var(--countach-muted);
+  }
+
+  .countach-tiling-manager,
+  .countach-tiling-manager *,
+  .countach-tiling-manager *::before,
+  .countach-tiling-manager *::after {
+    border-radius: 0 !important;
+  }
+
+  .countach-tiling-manager .retro-canvas,
+  .countach-tiling-manager .retro-canvas > main {
+    background: #000000;
+  }
+
+  .countach-tiling-manager .retro-canvas > header {
+    border-bottom: 1px solid var(--countach-border-dim);
+  }
+
+  /* Interlocking grid — uniform gap, no soft shadows on panels */
+  .countach-tiling-manager .retro-panel,
+  .countach-tiling-manager .retro-inset,
+  .countach-tiling-manager .retro-kpi,
+  .countach-tiling-manager .retro-field-box,
+  .countach-tiling-manager .retro-pipeline-cell,
+  .countach-tiling-manager [data-slot="card"] {
+    border: 1px solid var(--countach-border) !important;
+    background: var(--countach-bg) !important;
+    box-shadow: none !important;
+    --tw-ring-shadow: 0 0 #0000 !important;
+  }
+
+  .countach-tiling-manager [data-slot="card-header"],
+  .countach-tiling-manager [data-slot="card-footer"] {
+    border-color: var(--countach-border-dim);
+    background: var(--countach-bg) !important;
+    padding: 0.5rem 0.625rem !important;
+  }
+
+  .countach-tiling-manager [data-slot="card-content"] {
+    padding: 0.625rem !important;
+  }
+
+  .countach-tiling-manager .card-title,
+  .countach-tiling-manager .retro-panel-title {
+    color: var(--countach-amber) !important;
+  }
+
+  .countach-tiling-manager .card-subtitle,
+  .countach-tiling-manager .retro-panel-desc,
+  .countach-tiling-manager .micro-label,
+  .countach-tiling-manager .metadata-text,
+  .countach-tiling-manager .card-footnote {
+    color: var(--countach-muted) !important;
+  }
+
+  .countach-tiling-manager .primary-value,
+  .countach-tiling-manager .secondary-value,
+  .countach-tiling-manager .retro-txt-primary {
+    color: var(--countach-white) !important;
+  }
+
+  .countach-tiling-manager .retro-txt-gold {
+    color: var(--countach-amber) !important;
+  }
+
+  .countach-tiling-manager .retro-txt-danger {
+    color: var(--countach-red) !important;
+  }
+
+  .countach-tiling-manager .retro-txt-success {
+    color: var(--countach-green) !important;
+  }
+
+  .countach-tiling-manager input,
+  .countach-tiling-manager [data-slot="select-trigger"] {
+    border: 1px solid var(--countach-border-dim) !important;
+    background: var(--countach-bg-elevated) !important;
+    color: var(--countach-white) !important;
+    box-shadow: none !important;
+  }
+
+  .countach-tiling-manager input::placeholder {
+    color: #555555;
+  }
+
+  .countach-tiling-manager [class*="bg-[#F2E7D2]"],
+  .countach-tiling-manager [class*="bg-[#F7F0E2]"],
+  .countach-tiling-manager [class*="bg-[#EADDC4]"],
+  .countach-tiling-manager [class*="bg-[#F3EBDD]"],
+  .countach-tiling-manager [class*="bg-[#F5EDD8]"],
+  .countach-tiling-manager [class*="bg-[#FDFAF5]"] {
+    background-color: var(--countach-bg-elevated) !important;
+  }
+
+  .countach-tiling-manager .text-muted-foreground {
+    color: var(--countach-muted) !important;
+  }
+
+  .countach-tiling-manager .border-border,
+  .countach-tiling-manager .border-border\/60,
+  .countach-tiling-manager .border-dashed {
+    border-color: var(--countach-border-dim) !important;
+  }
+
+  /* Page content — tight grid-aligned padding */
+  .countach-tiling-manager .countach-page-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--countach-grid-gap);
+    padding: var(--countach-grid-gap);
+  }
+
+  /* Shadcn / UI primitives — sharp blackout controls */
+  .countach-tiling-manager [data-slot="button"] {
+    border: 1px solid var(--countach-border) !important;
+    background: var(--countach-bg-elevated) !important;
+    color: var(--countach-amber) !important;
+    box-shadow: none !important;
+    font-family: var(--font-geist-mono), ui-monospace, monospace !important;
+    font-size: 0.625rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+  }
+
+  .countach-tiling-manager [data-slot="button"]:hover:not(:disabled) {
+    border-color: var(--countach-amber) !important;
+    background: #0a0a0a !important;
+    color: var(--countach-amber) !important;
+  }
+
+  .countach-tiling-manager [data-slot="button"]:focus-visible {
+    outline: 1px solid var(--countach-amber) !important;
+    box-shadow: none !important;
+    --tw-ring-shadow: 0 0 #0000 !important;
+  }
+
+  .countach-tiling-manager [data-slot="badge"] {
+    border: 1px solid var(--countach-border-dim) !important;
+    background: var(--countach-bg-elevated) !important;
+    color: var(--countach-muted) !important;
+    box-shadow: none !important;
+    font-family: var(--font-geist-mono), ui-monospace, monospace !important;
+    font-size: 0.5625rem !important;
+    letter-spacing: 0.1em !important;
+    text-transform: uppercase !important;
+  }
+
+  .countach-tiling-manager [data-slot="select-popup"],
+  .countach-tiling-manager [role="listbox"] {
+    border: 1px solid var(--countach-border) !important;
+    background: var(--countach-bg) !important;
+    color: var(--countach-white) !important;
+    box-shadow: none !important;
+  }
+
+  .countach-tiling-manager [data-slot="select-item"]:focus,
+  .countach-tiling-manager [data-slot="select-item"][data-highlighted] {
+    background: #0a0a0a !important;
+    color: var(--countach-amber) !important;
+  }
+
+  .countach-tiling-manager table {
+    border-color: var(--countach-border-dim);
+  }
+
+  .countach-tiling-manager th,
+  .countach-tiling-manager td {
+    border-color: var(--countach-border-dim);
+  }
+
+  .countach-tiling-manager .retro-btn {
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .countach-tiling-manager .retro-btn-outline {
+    border-color: var(--countach-border);
+    background: var(--countach-bg-elevated);
+    color: var(--countach-muted);
+  }
+
+  .countach-tiling-manager .retro-btn-outline:hover:not(:disabled) {
+    border-color: var(--countach-amber);
+    background: #0a0a0a;
+    color: var(--countach-amber);
+  }
+
+  /* Kill soft focus rings on form controls */
+  .countach-tiling-manager [data-slot="button"]:focus-visible,
+  .countach-tiling-manager [data-slot="select-trigger"]:focus-visible,
+  .countach-tiling-manager input:focus-visible {
+    --tw-ring-shadow: 0 0 #0000 !important;
+    --tw-ring-offset-shadow: 0 0 #0000 !important;
+  }
+
+  .retro-buffer-cell {
+    aspect-ratio: 1;
+    border: 1px solid var(--retro-border);
+  }
+
+  .retro-row-divider {
+    border-bottom: 1px solid var(--retro-border);
+  }
+}
