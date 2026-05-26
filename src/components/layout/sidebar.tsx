@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { PmMonitorLogo } from "@/components/layout/pm-monitor-logo";
 import { NAV_ITEMS } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
 
@@ -27,9 +28,10 @@ export function Sidebar() {
   return (
     <aside className="countach-sidebar">
       <header className="countach-sidebar-brand">
-        <span className="countach-sidebar-brand-glyph" aria-hidden>
-          ##
-        </span>
+        <PmMonitorLogo
+          className="countach-sidebar-brand-glyph"
+          title="Predictive maintenance monitor"
+        />
         <div className="countach-sidebar-brand-text">
           <p className="countach-sidebar-brand-title">PM Monitor</p>
           <p className="countach-sidebar-brand-meta">Predictive</p>
@@ -66,9 +68,7 @@ export function Sidebar() {
       </nav>
 
       <footer className="countach-sidebar-footer">
-        <span className="countach-sidebar-footer-logo" aria-hidden>
-          N
-        </span>
+        <PmMonitorLogo className="countach-sidebar-footer-logo" />
         <span className="countach-sidebar-footer-text">Casual Room v2.1</span>
       </footer>
     </aside>

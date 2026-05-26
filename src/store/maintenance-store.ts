@@ -277,9 +277,34 @@ export const useMaintenanceStore = create<MaintenanceStore>((set, get) => ({
 
       set({ bootPhase: "api" });
       const { fetchHealth } = await import("@/lib/api/client");
-      const health = await fetchHealth();
-      const healthy = Object.values(health).some(Boolean);
-      if (!healthy) throw new Error("LSTM API reported unhealthy status");
+      const maxAttempts = 24;
+      const retryMs = 2500;
+      let healthy = false;
+      let lastError: Error | null = null;
+
+      for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+        try {
+          const health = await fetchHealth();
+          healthy = Object.values(health).some(Boolean);
+          if (healthy) break;
+          lastError = new Error("LSTM API reported unhealthy status");
+        } catch (error) {
+          lastError =
+            error instanceof Error ? error : new Error("LSTM API unreachable");
+        }
+        if (attempt < maxAttempts) {
+          await new Promise((resolve) => setTimeout(resolve, retryMs));
+        }
+      }
+
+      if (!healthy) {
+        throw (
+          lastError ??
+          new Error(
+            "LSTM API cold start timed out — check NEXT_PUBLIC_PRED_MAINT_API_URL",
+          )
+        );
+      }
 
       set({
         apiHealthy: true,

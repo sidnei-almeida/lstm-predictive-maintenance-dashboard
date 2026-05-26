@@ -2184,18 +2184,10 @@
   }
 
   .countach-sidebar-brand-glyph {
-    display: flex;
+    display: block;
     height: 2rem;
     width: 2rem;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid #2a2a2a;
-    background: #050505;
-    font-family: var(--font-geist-mono), ui-monospace, monospace;
-    font-size: 0.625rem;
-    font-weight: 700;
-    letter-spacing: 0;
-    color: var(--countach-amber);
+    flex-shrink: 0;
     border-radius: 0;
   }
 
@@ -2324,19 +2316,11 @@
   }
 
   .countach-sidebar-footer-logo {
-    display: flex;
-    height: 2rem;
-    width: 2rem;
+    display: block;
+    height: 1.5rem;
+    width: 1.5rem;
     flex-shrink: 0;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid #4a4a4a;
-    background: #050505;
-    font-family: var(--font-geist-mono), ui-monospace, monospace;
-    font-size: 0.6875rem;
-    font-weight: 700;
-    line-height: 1;
-    color: var(--countach-sidebar-dim);
+    opacity: 0.75;
     border-radius: 0;
   }
 
@@ -2575,5 +2559,46 @@
 
   .retro-row-divider {
     border-bottom: 1px solid var(--retro-border);
+  }
+
+  /* API cold-start overlay — VFD segmented gauge */
+  @keyframes countach-vfd-segment-pulse {
+    0%,
+    100% {
+      background-color: #222222;
+      box-shadow: none;
+    }
+    50% {
+      background-color: #00ff00;
+      box-shadow:
+        0 0 4px #00ff00,
+        0 0 10px rgb(0 255 0 / 45%);
+    }
+  }
+
+  @keyframes countach-cold-start-line-reveal {
+    from {
+      opacity: 0;
+      transform: translateY(2px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .countach-vfd-gauge__segment {
+    border: 1px solid #1a1a1a;
+    background-color: #222222;
+    border-radius: 0;
+    animation: countach-vfd-segment-pulse 2.4s ease-in-out infinite;
+  }
+
+  .countach-cold-start-line {
+    animation: countach-cold-start-line-reveal 0.35s ease forwards;
+  }
+
+  .countach-cold-start-bezel {
+    border-radius: 0;
   }
 }
