@@ -19,7 +19,7 @@ export function DashboardView() {
       <PipelineStrip />
 
       <section aria-label="Main operations">
-        <div className="grid grid-cols-1 gap-[3px] lg:grid-cols-3">
+        <div className="grid grid-cols-3 gap-[3px]">
           <AssetHealthOverview />
           <MachineCondition />
           <MaintenanceDecision />
@@ -27,7 +27,7 @@ export function DashboardView() {
       </section>
 
       <section aria-label="Secondary analytics">
-        <div className="grid grid-cols-1 gap-[3px] lg:grid-cols-3">
+        <div className="grid grid-cols-3 gap-[3px]">
           <FailureProbabilityTrend />
           <SequenceBuffer />
           <RiskDrivers />

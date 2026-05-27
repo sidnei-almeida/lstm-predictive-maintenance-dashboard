@@ -113,7 +113,7 @@ export function AlertsHistoryView() {
         ))}
       </div>
 
-      <TopKpiGrid className="vfd-kpi-grid sm:grid-cols-4 xl:grid-cols-7">
+      <TopKpiGrid className="vfd-kpi-grid grid-cols-7">
         {kpiCards.map((kpi) => (
           <TopKpiCard
             key={kpi.label}
@@ -223,23 +223,23 @@ export function AlertsHistoryView() {
               stream {streamStatus}.
             </p>
           </div>
-          <div className="grid grid-cols-1 gap-[3px] md:grid-cols-2">
+          <div className="grid grid-cols-2 gap-[3px]">
             <SessionPredictionReviewCard outcome={outcome} />
             <ApiSystemCard stats={apiStats} />
           </div>
         </div>
       ) : (
         <div className="flex flex-col gap-[3px]">
-          <div className="grid grid-cols-1 gap-[3px] lg:grid-cols-4">
-            <div className="lg:col-span-2">
+          <div className="grid grid-cols-4 gap-[3px]">
+            <div className="col-span-2">
               <RiskEventTimeline points={timeline} />
             </div>
             <SessionPredictionReviewCard outcome={outcome} />
             <ApiSystemCard stats={apiStats} />
           </div>
 
-          <div className="grid grid-cols-1 gap-[3px] xl:grid-cols-3">
-            <div className="xl:col-span-2">
+          <div className="grid grid-cols-3 gap-[3px]">
+            <div className="col-span-2">
               <div className="flex h-[560px] flex-col border border-[#333333] bg-black">
                 <div className="shrink-0 border-b border-[#222222] px-3 py-2">
                   <h2 className="card-title">Prediction &amp; Replay History</h2>

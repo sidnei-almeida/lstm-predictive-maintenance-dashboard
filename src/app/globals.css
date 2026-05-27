@@ -108,6 +108,9 @@
   --countach-red: #ff0000;
   --countach-grid-gap: 3px;
 
+  /* Desktop dashboard viewport lock (mobile browsers render desktop canvas) */
+  --dashboard-viewport-min: 1440px;
+
   --background: var(--countach-bg);
   --foreground: var(--countach-muted);
   --card: var(--countach-bg);
@@ -154,6 +157,32 @@
   --topbar-text-soft: #ebe2c4;
   --topbar-border: #d4bc78;
   --topbar-btn-bg: #0e0d08;
+}
+
+/* Desktop canvas — preserve wide dashboard layout on narrow viewports */
+html {
+  min-width: var(--dashboard-viewport-min);
+  overflow-x: auto;
+  height: 100%;
+}
+
+body.dashboard-desktop-root {
+  min-width: var(--dashboard-viewport-min);
+}
+
+.countach-tiling-manager.dashboard-desktop-canvas {
+  min-width: var(--dashboard-viewport-min);
+}
+
+.countach-tiling-manager .retro-canvas,
+.countach-tiling-manager .retro-canvas > main,
+.countach-tiling-manager .countach-page-grid,
+.countach-tiling-manager .countach-dashboard-blackout {
+  min-width: 0;
+}
+
+.countach-tiling-manager .countach-sidebar {
+  flex-shrink: 0;
 }
 
 @layer base {

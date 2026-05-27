@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import "./globals.css";
@@ -12,6 +12,11 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
+export const viewport: Viewport = {
+  width: 1440,
+  initialScale: 1,
+};
 
 export const metadata: Metadata = {
   title: "Real-Time Predictive Maintenance Monitor",
@@ -36,7 +41,9 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} countach-tiling-manager h-full bg-[#000000]`}
     >
-      <body className="h-full overflow-hidden bg-[#000000]">{children}</body>
+      <body className="dashboard-desktop-root h-full overflow-hidden bg-[#000000]">
+        {children}
+      </body>
     </html>
   );
 }

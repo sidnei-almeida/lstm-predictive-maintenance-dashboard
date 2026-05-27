@@ -47,7 +47,7 @@ export function SimulationControlCenter() {
 
   return (
     <div className="countach-page-grid flex flex-col gap-[3px] p-[3px]">
-      <div className="grid grid-cols-1 gap-[3px] lg:grid-cols-2">
+      <div className="grid grid-cols-2 gap-[3px]">
         <DashboardPanel title="Replay Mode" bodyClassName="space-y-4">
           <p className="text-xs text-muted-foreground">
             Curated Demo selects real dataset windows around known failures. Probabilities still
@@ -126,7 +126,7 @@ export function SimulationControlCenter() {
         </DashboardPanel>
       </div>
 
-      <DashboardPanel title="Configuration summary" className="xl:col-span-2" bodyClassName="text-xs text-muted-foreground">
+      <DashboardPanel title="Configuration summary" className="col-span-2" bodyClassName="text-xs text-muted-foreground">
         <p>
           Default replay: <span className="font-medium text-foreground">Curated Demo</span>. Feature
           order: air/process temperature, RPM, torque, tool wear, type_l, type_m. Sequence POST /predict

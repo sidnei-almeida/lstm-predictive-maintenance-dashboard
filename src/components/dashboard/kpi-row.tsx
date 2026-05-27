@@ -99,7 +99,7 @@ export function KpiRow() {
   ];
 
   return (
-    <TopKpiGrid className="vfd-kpi-grid sm:grid-cols-3 lg:grid-cols-6">
+    <TopKpiGrid className="vfd-kpi-grid grid-cols-6">
       {kpis.map((kpi) => (
         <TopKpiCard
           key={kpi.label}

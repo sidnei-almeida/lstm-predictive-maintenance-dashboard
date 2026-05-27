@@ -99,7 +99,7 @@ export function AnalyticsKpiRow({
   ];
 
   return (
-    <TopKpiGrid className="vfd-kpi-grid sm:grid-cols-4 xl:grid-cols-8">
+    <TopKpiGrid className="vfd-kpi-grid grid-cols-8">
       {kpis.map((kpi) => (
         <TopKpiCard
           key={kpi.label}
@@ -114,7 +114,7 @@ export function AnalyticsKpiRow({
 
 export function DistributionSection({ data }: { data: DatasetAnalytics }) {
   return (
-    <div className="grid grid-cols-1 gap-[3px] md:grid-cols-2 xl:grid-cols-4">
+    <div className="grid grid-cols-4 gap-[3px]">
       <AnalyticsChartPanel
         title="Class Distribution"
         footnote="Ground truth · Machine failure label"
@@ -139,8 +139,8 @@ export function DistributionSection({ data }: { data: DatasetAnalytics }) {
 
 export function SensorSection({ data }: { data: DatasetAnalytics }) {
   return (
-    <div className="grid grid-cols-1 gap-[3px] lg:grid-cols-3">
-      <DashboardPanel title="Sensor Range Summary" className="lg:col-span-1" bodyClassName="p-0">
+    <div className="grid grid-cols-3 gap-[3px]">
+      <DashboardPanel title="Sensor Range Summary" bodyClassName="p-0">
         <div className="overflow-x-auto">
           <table className="w-full text-[10px]">
             <thead>
@@ -181,13 +181,12 @@ export function SensorSection({ data }: { data: DatasetAnalytics }) {
 
       <AnalyticsChartPanel
         title="Normal vs Failure Sensor Means"
-        className="lg:col-span-1"
         footnote="EDA comparison · interpretable units"
       >
         <GroupedComparisonChart data={data.sensorComparison} height={220} />
       </AnalyticsChartPanel>
 
-      <DashboardPanel title="Temperature Gap Analysis" className="lg:col-span-1">
+      <DashboardPanel title="Temperature Gap Analysis">
         <StatTable
           rows={[
             { label: "Gap (normal avg)", value: `${data.temperatureGap.normalMean} K` },
@@ -209,7 +208,7 @@ export function SensorSection({ data }: { data: DatasetAnalytics }) {
 
 export function SensorChartsRow({ data }: { data: DatasetAnalytics }) {
   return (
-    <div className="grid grid-cols-1 gap-[3px] lg:grid-cols-2">
+    <div className="grid grid-cols-2 gap-[3px]">
       <AnalyticsChartPanel
         title="Tool Wear Distribution"
         footnote="25 min bins · failure count overlay"
@@ -232,7 +231,7 @@ export function RiskFactorSection({ data }: { data: DatasetAnalytics }) {
       title="Operational Risk Factor Analysis (EDA)"
       description="Comparative indicators — not SHAP or model feature importance"
     >
-      <div className="grid grid-cols-1 gap-[3px] sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-4 gap-[3px]">
         {data.riskFactors.map((card) => (
           <div key={card.id} className="retro-inset border border-[#333333] p-3">
             <p className="font-mono text-[9px] font-bold tracking-[0.15em] text-[#ffaa00] uppercase">
@@ -259,10 +258,9 @@ export function RiskFactorSection({ data }: { data: DatasetAnalytics }) {
 export function ModelSection({ data }: { data: DatasetAnalytics }) {
   return (
     <div className="flex flex-col gap-[3px]">
-      <div className="grid grid-cols-1 items-stretch gap-[3px] md:grid-cols-2">
+      <div className="grid grid-cols-2 items-stretch gap-[3px]">
         <DashboardPanel
           title="Model Overview"
-          className="min-h-[15rem] md:min-h-0"
           bodyClassName="flex min-h-0 flex-1 flex-col p-2"
         >
           <ModelOverviewSpecPlate className="min-h-0 flex-1" />
@@ -270,7 +268,6 @@ export function ModelSection({ data }: { data: DatasetAnalytics }) {
 
         <DashboardPanel
           title="Processed Tensor Summary"
-          className="min-h-[15rem] md:min-h-0"
           bodyClassName="flex min-h-0 flex-1 flex-col"
         >
         <StatTable
@@ -295,8 +292,8 @@ export function ModelSection({ data }: { data: DatasetAnalytics }) {
       </div>
 
       <DashboardPanel title="Model Details" bodyClassName="flex min-h-[400px] flex-col p-0">
-        <div className="grid min-h-[400px] flex-1 grid-cols-1 lg:grid-cols-2">
-          <section className="flex min-h-0 flex-col border-b border-[#333333] lg:border-r lg:border-b-0">
+        <div className="grid min-h-[400px] flex-1 grid-cols-2">
+          <section className="flex min-h-0 flex-col border-r border-[#333333]">
             <header className="shrink-0 border-b border-[#333333] px-3 py-2">
               <h3 className="micro-label">How the LSTM Works</h3>
             </header>
@@ -328,9 +325,9 @@ export function QualityMetadataSection({
   const datasetMeta = metadata?.dataset;
 
   return (
-    <div className="grid grid-cols-1 items-stretch gap-[3px] lg:grid-cols-2">
+    <div className="grid grid-cols-2 items-stretch gap-[3px]">
       <DashboardPanel title="Data Quality & Label Consistency" className="h-full" bodyClassName="flex h-full flex-col">
-        <div className="grid flex-1 grid-cols-1 gap-[3px] sm:grid-cols-2">
+        <div className="grid flex-1 grid-cols-2 gap-[3px]">
           <StatTable
             rows={[
               { label: "Missing / invalid rows", value: q.missingValues },
@@ -355,7 +352,7 @@ export function QualityMetadataSection({
 
       <DashboardPanel title="Model Metadata (API)" className="h-full" bodyClassName="flex h-full flex-col">
         {metadata ? (
-          <div className="grid flex-1 grid-cols-1 gap-[3px] sm:grid-cols-2">
+          <div className="grid flex-1 grid-cols-2 gap-[3px]">
             <StatTable
               rows={[
                 { label: "Project", value: metadata.project ?? "—" },

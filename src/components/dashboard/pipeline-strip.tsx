@@ -39,15 +39,15 @@ export function PipelineStrip() {
   return (
     <div className="countach-pipeline-strip px-2 py-1.5">
       <p className="card-title mb-1.5">Maintenance Pipeline</p>
-      <div className="flex flex-wrap items-stretch gap-1 lg:flex-nowrap">
+      <div className="flex flex-nowrap items-stretch gap-1">
         {STAGE_TITLES.map((title, index) => (
-          <div key={title} className="flex min-w-[110px] flex-1 items-center gap-0.5 lg:min-w-0">
+          <div key={title} className="flex min-w-0 flex-1 items-center gap-0.5">
             <div className="retro-pipeline-cell min-w-0 flex-1">
               <p className="micro-label micro-label-xs">{title}</p>
               <p className="metadata-text mt-0.5 truncate retro-txt-primary">{subtitles[index]}</p>
             </div>
             {index < STAGE_TITLES.length - 1 ? (
-              <ChevronRight className="hidden size-2.5 shrink-0 retro-txt-gold lg:block" aria-hidden />
+              <ChevronRight className="size-2.5 shrink-0 retro-txt-gold" aria-hidden />
             ) : null}
           </div>
         ))}
