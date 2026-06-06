@@ -3,16 +3,18 @@
 import { DashboardPanel } from "@/components/layout/dashboard-panel";
 import { TopKpiCard, TopKpiGrid, type VfdValueKind } from "@/components/layout/top-kpi-card";
 import type { DatasetAnalytics } from "@/lib/analytics/types";
-import { getApiBaseUrl, type ApiMetadata } from "@/lib/api/client";
-import { FEATURE_ORDER, SEQUENCE_LENGTH, THRESHOLD_DISPLAY } from "@/lib/features/constants";
+import { getApiBaseUrl } from "@/lib/api/client";
+import { SEQUENCE_LENGTH, THRESHOLD_DISPLAY } from "@/lib/features/constants";
+import { formatMetricPct } from "@/lib/metrics/format";
+import type { ModelMetricsBundle } from "@/lib/metrics/types";
 import { cn } from "@/lib/utils";
 
 import {
-  DonutChart,
   GroupedComparisonChart,
-  RateBarChart,
   SimpleBarChart,
+  ThresholdSweepChart,
   TorqueSpeedScatter,
+  TrainingHistoryChart,
   WearBinChart,
 } from "./charts";
 import { LstmCellSchematic } from "./lstm-cell-schematic";
@@ -66,40 +68,57 @@ function AnalyticsChartPanel({
 
 export function AnalyticsKpiRow({
   data,
-  testAccuracy,
+  metrics,
 }: {
   data: DatasetAnalytics;
-  testAccuracy: string;
+  metrics: ModelMetricsBundle;
 }) {
+  const d = metrics.dashboard;
+  const train = metrics.training;
   const failureRatePct = (data.failureRate * 100).toFixed(2);
-  const accuracyNum = parseFloat(testAccuracy.replace(/[^\d.]/g, ""));
 
   const kpis: { label: string; value: string; vfdValueKind: VfdValueKind }[] = [
     { label: "TOTAL SAMPLES", value: data.totalSamples.toLocaleString(), vfdValueKind: "numeric" },
+    { label: "FAILURE RATE", value: `${failureRatePct}%`, vfdValueKind: "numeric" },
     {
-      label: "FAILURE SAMPLES",
-      value: data.failureSamples.toLocaleString(),
+      label: "FAILURE RECALL",
+      value: formatMetricPct(d.failure_recall),
+      vfdValueKind: d.failure_recall >= 0.75 ? "status-positive" : "numeric",
+    },
+    {
+      label: "ALERT PRECISION",
+      value: formatMetricPct(d.alert_precision),
       vfdValueKind: "numeric",
     },
-    { label: "FAILURE RATE", value: `${failureRatePct}%`, vfdValueKind: "numeric" },
-    { label: "NORMAL SAMPLES", value: data.normalSamples.toLocaleString(), vfdValueKind: "numeric" },
-    { label: "SENSOR FEATURES", value: String(data.sensorFeatureCount), vfdValueKind: "numeric" },
-    { label: "SEQ. LENGTH", value: String(data.sequenceLength), vfdValueKind: "numeric" },
-    { label: "INPUT SHAPE", value: data.modelInputShape, vfdValueKind: "numeric" },
     {
-      label: "TEST ACCURACY",
-      value: testAccuracy,
-      vfdValueKind:
-        testAccuracy === "—"
-          ? "dim"
-          : Number.isFinite(accuracyNum) && accuracyNum >= 90
-            ? "status-positive"
-            : "numeric",
+      label: "F1 SCORE",
+      value: formatMetricPct(d.f1_score),
+      vfdValueKind: "numeric",
+    },
+    {
+      label: "ROC-AUC",
+      value: formatMetricPct(d.roc_auc),
+      vfdValueKind: d.roc_auc >= 0.9 ? "status-positive" : "numeric",
+    },
+    {
+      label: "PR-AUC",
+      value: formatMetricPct(d.pr_auc),
+      vfdValueKind: "numeric",
+    },
+    {
+      label: "DECISION THR",
+      value: `${Math.round(d.decision_threshold * 100)}%`,
+      vfdValueKind: "numeric",
+    },
+    {
+      label: "TRAIN EPOCHS",
+      value: String(train.training_parameters.epochs),
+      vfdValueKind: "numeric",
     },
   ];
 
   return (
-    <TopKpiGrid className="vfd-kpi-grid grid-cols-8">
+    <TopKpiGrid className="vfd-kpi-grid grid-cols-9">
       {kpis.map((kpi) => (
         <TopKpiCard
           key={kpi.label}
@@ -112,27 +131,118 @@ export function AnalyticsKpiRow({
   );
 }
 
-export function DistributionSection({ data }: { data: DatasetAnalytics }) {
+export function TrainingMetricsSection({
+  metrics,
+  data,
+}: {
+  metrics: ModelMetricsBundle;
+  data: DatasetAnalytics;
+}) {
+  const { training, dashboard } = metrics;
+  const eval_ = training.final_evaluation;
+  const cm = dashboard.confusion_matrix;
+  const [[tn, fp], [fn, tp]] = cm;
+  const bestF1 = training.recommended_thresholds.best_f1;
+  const recallOriented = training.recommended_thresholds.recall_oriented;
+
   return (
-    <div className="grid grid-cols-4 gap-[3px]">
-      <AnalyticsChartPanel
-        title="Class Distribution"
-        footnote="Ground truth · Machine failure label"
-      >
-        <SimpleBarChart data={data.classDistribution} height={160} />
-      </AnalyticsChartPanel>
-      <AnalyticsChartPanel
-        title="Failure Mode Breakdown"
-        footnote="Explanatory only — not LSTM inputs (TWF/HDF/PWF/OSF/RNF)"
-      >
-        <SimpleBarChart data={data.failureModeBreakdown} height={160} />
-      </AnalyticsChartPanel>
-      <AnalyticsChartPanel title="Product Type Distribution">
-        <DonutChart data={data.productTypeDistribution} height={160} />
-      </AnalyticsChartPanel>
-      <AnalyticsChartPanel title="Failure Rate by Product Type">
-        <RateBarChart data={data.failureRateByType} height={160} />
-      </AnalyticsChartPanel>
+    <div className="flex flex-col gap-[3px]">
+      <div className="grid grid-cols-4 gap-[3px]">
+        <div className="col-span-2">
+          <AnalyticsChartPanel
+            title="Training History"
+            footnote={`${training.training_parameters.epochs} epochs · batch ${training.training_parameters.batch_size} · class weight failure ${training.training_parameters.class_weight["1"].toFixed(1)}`}
+          >
+            <TrainingHistoryChart history={training.training_history} height={220} />
+          </AnalyticsChartPanel>
+        </div>
+        <div className="col-span-2">
+          <AnalyticsChartPanel
+            title="Threshold Sweep"
+            footnote={`Decision threshold ${Math.round(dashboard.decision_threshold * 100)}% · primary: ${dashboard.primary_metric.replace(/_/g, " ")}`}
+          >
+            <ThresholdSweepChart
+              points={metrics.thresholdAnalysis}
+              decisionThreshold={dashboard.decision_threshold}
+              height={220}
+            />
+          </AnalyticsChartPanel>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-4 gap-[3px]">
+        <AnalyticsChartPanel
+          title="Failure Mode Breakdown"
+          footnote="Explanatory only — not LSTM inputs (TWF/HDF/PWF/OSF/RNF)"
+        >
+          <SimpleBarChart data={data.failureModeBreakdown} height={160} />
+        </AnalyticsChartPanel>
+
+        <DashboardPanel title="Test Set Confusion Matrix" bodyClassName="p-3">
+          <div className="grid grid-cols-[auto_1fr_1fr] gap-1 font-mono text-[9px] uppercase">
+            <div />
+            <div className="text-center text-[#666666]">Pred normal</div>
+            <div className="text-center text-[#666666]">Pred failure</div>
+            <div className="text-[#666666]">Actual normal</div>
+            <div className="border border-[#333333] bg-[#050505] px-2 py-2 text-center tabular-nums text-[#00ff00]">
+              {tn}
+            </div>
+            <div className="border border-[#333333] bg-[#050505] px-2 py-2 text-center tabular-nums text-[#ffaa00]">
+              {fp}
+            </div>
+            <div className="text-[#666666]">Actual failure</div>
+            <div className="border border-[#333333] bg-[#050505] px-2 py-2 text-center tabular-nums text-[#ffaa00]">
+              {fn}
+            </div>
+            <div className="border border-[#333333] bg-[#050505] px-2 py-2 text-center tabular-nums text-[#00ff00]">
+              {tp}
+            </div>
+          </div>
+          <p className="card-footnote mt-3 border-t border-[#222222] pt-2">
+            @ {Math.round(dashboard.decision_threshold * 100)}% threshold · test n=
+            {training.dataset_info.testing_samples}
+          </p>
+        </DashboardPanel>
+
+        <DashboardPanel title="Training Run Summary" bodyClassName="p-3">
+          <StatTable
+            rows={[
+              { label: "Architecture", value: training.model_architecture },
+              { label: "Train samples", value: training.dataset_info.training_samples.toLocaleString() },
+              { label: "Test samples", value: training.dataset_info.testing_samples.toLocaleString() },
+              { label: "Train failure rate", value: formatMetricPct(training.dataset_info.train_class_distribution.failure_rate) },
+              { label: "Test failure rate", value: formatMetricPct(training.dataset_info.test_class_distribution.failure_rate) },
+              { label: "Test loss", value: eval_.test_loss.toFixed(4) },
+            ]}
+          />
+        </DashboardPanel>
+
+        <DashboardPanel title="Threshold Recommendations" bodyClassName="p-3">
+          <StatTable
+            rows={[
+              {
+                label: `Best F1 @ ${Math.round(bestF1.threshold * 100)}%`,
+                value: `F1 ${formatMetricPct(bestF1.f1_score)} · R ${formatMetricPct(bestF1.recall)}`,
+              },
+              {
+                label: `Recall-oriented @ ${Math.round(recallOriented.threshold * 100)}%`,
+                value: `R ${formatMetricPct(recallOriented.recall)} · P ${formatMetricPct(recallOriented.precision)}`,
+              },
+              {
+                label: "Dashboard decision",
+                value: `${Math.round(dashboard.decision_threshold * 100)}%`,
+              },
+              {
+                label: "Default eval @ 50%",
+                value: `F1 ${formatMetricPct(eval_.test_f1_score)}`,
+              },
+            ]}
+          />
+          <p className="card-footnote mt-3 border-t border-[#222222] pt-2">
+            {dashboard.dataset_context.note}
+          </p>
+        </DashboardPanel>
+      </div>
     </div>
   );
 }
@@ -315,14 +425,17 @@ export function ModelSection({ data }: { data: DatasetAnalytics }) {
 
 export function QualityMetadataSection({
   data,
-  metadata,
+  metrics,
 }: {
   data: DatasetAnalytics;
-  metadata: ApiMetadata | null;
+  metrics: ModelMetricsBundle;
 }) {
   const q = data.dataQuality;
-  const training = metadata?.training;
-  const datasetMeta = metadata?.dataset;
+  const eval_ = metrics.training.final_evaluation;
+  const report = eval_.classification_report as Record<
+    string,
+    { precision?: number; recall?: number; "f1-score"?: number; support?: number }
+  >;
 
   return (
     <div className="grid grid-cols-2 items-stretch gap-[3px]">
@@ -350,55 +463,54 @@ export function QualityMetadataSection({
         </p>
       </DashboardPanel>
 
-      <DashboardPanel title="Model Metadata (API)" className="h-full" bodyClassName="flex h-full flex-col">
-        {metadata ? (
-          <div className="grid flex-1 grid-cols-2 gap-[3px]">
-            <StatTable
-              rows={[
-                { label: "Project", value: metadata.project ?? "—" },
-                { label: "Version", value: metadata.version ?? "—" },
-                { label: "Sequence length", value: metadata.sequence_length ?? SEQUENCE_LENGTH },
-                { label: "Features", value: metadata.features?.length ?? FEATURE_ORDER.length },
-                { label: "Dataset samples", value: datasetMeta?.samples?.toLocaleString() ?? "—" },
-                {
-                  label: "Dataset failure rate",
-                  value:
-                    datasetMeta?.failure_rate != null
-                      ? `${(datasetMeta.failure_rate * 100).toFixed(2)}%`
-                      : "—",
-                },
-                { label: "Epochs", value: training?.parameters?.epochs ?? "—" },
-              ]}
-            />
-            <StatTable
-              rows={[
-                { label: "Batch size", value: training?.parameters?.batch_size ?? "—" },
-                {
-                  label: "Test accuracy",
-                  value:
-                    training?.evaluation?.test_accuracy != null
-                      ? `${(training.evaluation.test_accuracy * 100).toFixed(2)}%`
-                      : "—",
-                },
-                {
-                  label: "Test loss",
-                  value: training?.evaluation?.test_loss?.toFixed(4) ?? "—",
-                },
-                { label: "Architecture", value: training?.architecture ?? "—" },
-              ]}
-            />
-          </div>
-        ) : (
-          <p className="card-footnote flex flex-1 items-center">
-            Metadata unavailable — API offline or unreachable.
-          </p>
-        )}
+      <DashboardPanel title="Holdout Classification Report" className="h-full" bodyClassName="flex h-full flex-col p-3">
+        <div className="grid flex-1 grid-cols-2 gap-[3px]">
+          <StatTable
+            rows={[
+              {
+                label: "Normal precision",
+                value: formatMetricPct(report.normal?.precision ?? 0),
+              },
+              {
+                label: "Normal recall",
+                value: formatMetricPct(report.normal?.recall ?? 0),
+              },
+              {
+                label: "Normal F1",
+                value: formatMetricPct(report.normal?.["f1-score"] ?? 0),
+              },
+              { label: "Normal support", value: report.normal?.support ?? "—" },
+            ]}
+          />
+          <StatTable
+            rows={[
+              {
+                label: "Failure precision",
+                value: formatMetricPct(report.failure?.precision ?? 0),
+              },
+              {
+                label: "Failure recall",
+                value: formatMetricPct(report.failure?.recall ?? 0),
+              },
+              {
+                label: "Failure F1",
+                value: formatMetricPct(report.failure?.["f1-score"] ?? 0),
+              },
+              { label: "Failure support", value: report.failure?.support ?? "—" },
+              { label: "Macro F1", value: formatMetricPct((report["macro avg"]?.["f1-score"] as number) ?? 0) },
+            ]}
+          />
+        </div>
+        <p className="card-footnote mt-auto border-t border-[#222222] pt-3">
+          Source: metrics/training_summary.json · @ {Math.round(eval_.threshold * 100)}% threshold ·
+          accuracy is secondary on imbalanced data ({formatMetricPct(eval_.test_accuracy)}).
+        </p>
       </DashboardPanel>
     </div>
   );
 }
 
-export function PipelineSection({ metadataError }: { metadataError: string | null }) {
+export function PipelineSection() {
   const apiBase = getApiBaseUrl();
 
   return (
@@ -428,11 +540,6 @@ export function PipelineSection({ metadataError }: { metadataError: string | nul
         <p className="card-footnote mt-2">
           /sample → predicted_probability · /predict → probability (stream)
         </p>
-        {metadataError ? (
-          <p className="mt-2 font-mono text-[10px] tracking-wide text-[#ff0000] uppercase">
-            {metadataError}
-          </p>
-        ) : null}
       </DashboardPanel>
     </div>
   );

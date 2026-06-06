@@ -6,8 +6,11 @@ import {
   CartesianGrid,
   Cell,
   Legend,
+  Line,
+  LineChart,
   Pie,
   PieChart,
+  ReferenceLine,
   ResponsiveContainer,
   Scatter,
   ScatterChart,
@@ -15,6 +18,8 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+
+import type { TrainingHistory, ThresholdPoint } from "@/lib/metrics/types";
 
 import type { CountItem } from "@/lib/analytics/types";
 import {
@@ -27,6 +32,7 @@ import {
   VFD_CHART_MARGIN_TALL_X,
   VFD_GRID,
   VFD_LEGEND_STYLE,
+  VFD_MONO,
   VFD_PIE_ACTIVE,
   VFD_PLOT,
   VFD_TOOLTIP_PROPS,
@@ -274,6 +280,182 @@ export function TorqueSpeedScatter({
         />
         <Legend wrapperStyle={VFD_LEGEND_STYLE} />
       </ScatterChart>
+    </ResponsiveContainer>
+  );
+}
+
+function historyEpochRows(history: TrainingHistory) {
+  const len = history.loss.length;
+  return Array.from({ length: len }, (_, i) => ({
+    epoch: i + 1,
+    loss: history.loss[i],
+    val_loss: history.val_loss[i],
+    val_roc_auc: history.val_roc_auc[i],
+    val_recall: history.val_recall[i],
+  }));
+}
+
+export function TrainingHistoryChart({
+  history,
+  height = 220,
+}: {
+  history: TrainingHistory;
+  height?: number;
+}) {
+  const data = historyEpochRows(history);
+
+  return (
+    <ResponsiveContainer width="100%" height={height}>
+      <LineChart data={data} margin={{ ...VFD_CHART_MARGIN, right: 28 }} style={chartStyle()}>
+        <CartesianGrid {...VFD_GRID} />
+        <XAxis
+          dataKey="epoch"
+          tick={VFD_AXIS_TICK}
+          label={{
+            value: "EPOCH",
+            position: "insideBottom",
+            offset: -2,
+            fill: VFD_PLOT.axis,
+            fontSize: 8,
+            fontFamily: VFD_MONO,
+          }}
+          {...VFD_AXIS_FRAME}
+        />
+        <YAxis
+          yAxisId="loss"
+          tick={VFD_AXIS_TICK}
+          width={36}
+          domain={[0, "auto"]}
+          {...VFD_AXIS_FRAME}
+        />
+        <YAxis
+          yAxisId="auc"
+          orientation="right"
+          tick={VFD_AXIS_TICK}
+          width={32}
+          domain={[0.7, 1]}
+          {...VFD_AXIS_FRAME}
+        />
+        <Tooltip
+          {...VFD_TOOLTIP_PROPS}
+          formatter={(v, name) => [
+            typeof v === "number" ? v.toFixed(4) : String(v),
+            String(name).toUpperCase(),
+          ]}
+        />
+        <Legend wrapperStyle={VFD_LEGEND_STYLE} />
+        <Line
+          yAxisId="loss"
+          type="monotone"
+          dataKey="loss"
+          name="Train loss"
+          stroke={VFD_PLOT.barMid}
+          strokeWidth={1}
+          dot={false}
+          isAnimationActive={false}
+        />
+        <Line
+          yAxisId="loss"
+          type="monotone"
+          dataKey="val_loss"
+          name="Val loss"
+          stroke={VFD_PLOT.threshold}
+          strokeWidth={1.25}
+          dot={false}
+          isAnimationActive={false}
+        />
+        <Line
+          yAxisId="auc"
+          type="monotone"
+          dataKey="val_roc_auc"
+          name="Val ROC-AUC"
+          stroke={VFD_PLOT.line}
+          strokeWidth={1.25}
+          dot={false}
+          isAnimationActive={false}
+        />
+      </LineChart>
+    </ResponsiveContainer>
+  );
+}
+
+export function ThresholdSweepChart({
+  points,
+  decisionThreshold,
+  height = 220,
+}: {
+  points: ThresholdPoint[];
+  decisionThreshold: number;
+  height?: number;
+}) {
+  const data = points.map((p) => ({
+    threshold: Math.round(p.threshold * 100),
+    recall: p.recall * 100,
+    precision: p.precision * 100,
+    f1: p.f1_score * 100,
+  }));
+
+  return (
+    <ResponsiveContainer width="100%" height={height}>
+      <LineChart data={data} margin={VFD_CHART_MARGIN} style={chartStyle()}>
+        <CartesianGrid {...VFD_GRID} />
+        <XAxis
+          dataKey="threshold"
+          tick={VFD_AXIS_TICK}
+          unit="%"
+          {...VFD_AXIS_FRAME}
+        />
+        <YAxis tick={VFD_AXIS_TICK} width={36} unit="%" domain={[0, 100]} {...VFD_AXIS_FRAME} />
+        <Tooltip
+          {...VFD_TOOLTIP_PROPS}
+          formatter={(v) => [`${Number(v).toFixed(1)}%`, ""]}
+        />
+        <Legend wrapperStyle={VFD_LEGEND_STYLE} />
+        <ReferenceLine
+          x={Math.round(decisionThreshold * 100)}
+          stroke={VFD_PLOT.threshold}
+          strokeDasharray="4 4"
+          label={{
+            value: "DECISION",
+            position: "insideTopRight",
+            fill: VFD_PLOT.threshold,
+            fontSize: 8,
+            fontFamily: VFD_MONO,
+          }}
+        />
+        <ReferenceLine
+          x={50}
+          stroke={VFD_PLOT.grid}
+          strokeDasharray="2 4"
+        />
+        <Line
+          type="monotone"
+          dataKey="recall"
+          name="Recall"
+          stroke={VFD_PLOT.line}
+          strokeWidth={1.25}
+          dot={false}
+          isAnimationActive={false}
+        />
+        <Line
+          type="monotone"
+          dataKey="precision"
+          name="Precision"
+          stroke={VFD_PLOT.threshold}
+          strokeWidth={1}
+          dot={false}
+          isAnimationActive={false}
+        />
+        <Line
+          type="monotone"
+          dataKey="f1"
+          name="F1"
+          stroke={VFD_PLOT.barMid}
+          strokeWidth={1}
+          dot={false}
+          isAnimationActive={false}
+        />
+      </LineChart>
     </ResponsiveContainer>
   );
 }

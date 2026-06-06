@@ -3,18 +3,18 @@
 import { useEffect, useState } from "react";
 
 import type { DatasetAnalytics } from "@/lib/analytics/types";
-import { fetchMetadata, type ApiMetadata } from "@/lib/api/client";
+import type { ModelMetricsBundle } from "@/lib/metrics/types";
 
 import { AnalyticsPageShell } from "./analytics-page-shell";
 import {
   AnalyticsKpiRow,
-  DistributionSection,
   ModelSection,
   PipelineSection,
   QualityMetadataSection,
   RiskFactorSection,
   SensorChartsRow,
   SensorSection,
+  TrainingMetricsSection,
 } from "./analytics-sections";
 
 function AnalyticsLoadingState() {
@@ -39,8 +39,7 @@ function AnalyticsErrorState({ message }: { message: string }) {
 
 export function AnalyticsView() {
   const [data, setData] = useState<DatasetAnalytics | null>(null);
-  const [metadata, setMetadata] = useState<ApiMetadata | null>(null);
-  const [metadataError, setMetadataError] = useState<string | null>(null);
+  const [metrics, setMetrics] = useState<ModelMetricsBundle | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -51,7 +50,7 @@ export function AnalyticsView() {
       setLoading(true);
       setLoadError(null);
       try {
-        const [analyticsRes, metaResult] = await Promise.allSettled([
+        const [analyticsRes, metricsRes] = await Promise.all([
           fetch("/api/analytics", { cache: "no-store" }).then(async (r) => {
             if (!r.ok) {
               const err = await r.json().catch(() => ({}));
@@ -59,27 +58,21 @@ export function AnalyticsView() {
             }
             return r.json() as Promise<DatasetAnalytics>;
           }),
-          fetchMetadata(),
+          fetch("/api/metrics", { cache: "no-store" }).then(async (r) => {
+            if (!r.ok) {
+              const err = await r.json().catch(() => ({}));
+              throw new Error((err as { error?: string }).error ?? "Metrics failed");
+            }
+            return r.json() as Promise<ModelMetricsBundle>;
+          }),
         ]);
 
         if (cancelled) return;
-
-        if (analyticsRes.status === "fulfilled") {
-          setData(analyticsRes.value);
-        } else {
-          setLoadError(
-            analyticsRes.reason instanceof Error
-              ? analyticsRes.reason.message
-              : "Failed to load analytics",
-          );
-        }
-
-        if (metaResult.status === "fulfilled") {
-          setMetadata(metaResult.value);
-          setMetadataError(null);
-        } else {
-          setMetadata(null);
-          setMetadataError("Could not load /metadata from inference API");
+        setData(analyticsRes);
+        setMetrics(metricsRes);
+      } catch (error) {
+        if (!cancelled) {
+          setLoadError(error instanceof Error ? error.message : "Failed to load analytics");
         }
       } finally {
         if (!cancelled) setLoading(false);
@@ -100,7 +93,7 @@ export function AnalyticsView() {
     );
   }
 
-  if (loadError || !data) {
+  if (loadError || !data || !metrics) {
     return (
       <AnalyticsPageShell>
         <AnalyticsErrorState message={loadError ?? "Analytics unavailable"} />
@@ -108,16 +101,11 @@ export function AnalyticsView() {
     );
   }
 
-  const testAccuracy =
-    metadata?.training?.evaluation?.test_accuracy != null
-      ? `${(metadata.training.evaluation.test_accuracy * 100).toFixed(2)}%`
-      : "—";
-
   return (
     <AnalyticsPageShell>
-      <AnalyticsKpiRow data={data} testAccuracy={testAccuracy} />
+      <AnalyticsKpiRow data={data} metrics={metrics} />
 
-      <DistributionSection data={data} />
+      <TrainingMetricsSection metrics={metrics} data={data} />
 
       <SensorSection data={data} />
 
@@ -127,9 +115,9 @@ export function AnalyticsView() {
 
       <ModelSection data={data} />
 
-      <QualityMetadataSection data={data} metadata={metadata} />
+      <QualityMetadataSection data={data} metrics={metrics} />
 
-      <PipelineSection metadataError={metadataError} />
+      <PipelineSection />
     </AnalyticsPageShell>
   );
 }
