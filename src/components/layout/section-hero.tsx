@@ -41,7 +41,7 @@ export function SectionHero({
         aria-hidden
       />
 
-      <div className="absolute inset-0 z-10 flex items-center p-3 pr-24 pl-3 sm:pr-28 sm:pl-3">
+      <div className="countach-dashboard-hero__content absolute inset-0 z-10 flex items-end p-3 md:items-center md:pr-28 md:pl-3">
         <div className="flex min-w-0 items-center gap-3">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -57,7 +57,7 @@ export function SectionHero({
         </div>
       </div>
 
-      <div className="absolute top-2 right-2 z-20">
+      <div className="countach-dashboard-hero__status-wrap absolute right-2 bottom-2 z-20 md:top-2 md:bottom-auto">
         <div
           className={cn(
             "countach-dashboard-hero__status inline-flex items-center gap-2 border border-[#ffaa00] bg-black/70 px-3 py-1.5",

@@ -26,7 +26,7 @@ export function DashboardPanel({
         </div>
         {action ? <div className="shrink-0">{action}</div> : null}
       </header>
-      <div className={cn("retro-panel-body min-h-0 flex-1", bodyClassName)}>{children}</div>
+      <div className={cn("retro-panel-body md:min-h-0 md:flex-1", bodyClassName)}>{children}</div>
     </section>
   );
 }

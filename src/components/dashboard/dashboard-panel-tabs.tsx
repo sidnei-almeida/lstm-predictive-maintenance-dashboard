@@ -53,7 +53,7 @@ export function DashboardPanelTabs({
         {tabs
           .filter((tab) => tab.id === activeId)
           .map((tab) => (
-            <div key={tab.id} role="tabpanel">
+            <div key={tab.id} role="tabpanel" className="countach-mobile-panel">
               {tab.panel}
             </div>
           ))}

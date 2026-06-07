@@ -39,10 +39,15 @@ export function MobileNavDrawer({ open, onClose }: MobileNavDrawerProps) {
   const streamLabel = streamStatusLabel(streamStatus).toUpperCase();
 
   useEffect(() => {
-    if (!open) return;
+    if (!open) {
+      document.body.style.overflow = "";
+      return;
+    }
+
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
+
     document.body.style.overflow = "hidden";
     window.addEventListener("keydown", onKey);
     return () => {
@@ -51,26 +56,32 @@ export function MobileNavDrawer({ open, onClose }: MobileNavDrawerProps) {
     };
   }, [open, onClose]);
 
-  if (!open) return null;
-
   return (
-    <div className="countach-mobile-drawer-root" role="presentation">
+    <div
+      className={cn("countach-mobile-drawer-root", open && "countach-mobile-drawer-root--open")}
+      aria-hidden={!open}
+    >
       <button
         type="button"
         className="countach-mobile-drawer-backdrop"
         aria-label="Close menu"
+        tabIndex={open ? 0 : -1}
         onClick={onClose}
       />
       <aside
+        id="countach-mobile-drawer"
         ref={drawerRef}
-        className="countach-mobile-drawer"
+        className={cn("countach-mobile-drawer", open && "countach-mobile-drawer--open")}
         role="dialog"
         aria-modal="true"
         aria-label="Navigation menu"
+        aria-hidden={!open}
         onTouchStart={(e) => {
+          if (!open) return;
           touchStartX.current = e.touches[0]?.clientX ?? null;
         }}
         onTouchEnd={(e) => {
+          if (!open) return;
           const start = touchStartX.current;
           const end = e.changedTouches[0]?.clientX;
           touchStartX.current = null;
@@ -80,8 +91,8 @@ export function MobileNavDrawer({ open, onClose }: MobileNavDrawerProps) {
         }}
       >
         <div className="countach-mobile-drawer__header">
-          <PmMonitorLogo className="h-8 w-8" title="PM Monitor" />
-          <div className="min-w-0">
+          <PmMonitorLogo className="h-8 w-8 shrink-0" title="PM Monitor" />
+          <div className="min-w-0 flex-1">
             <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#ffaa00]">
               PM Monitor
             </p>
@@ -93,6 +104,7 @@ export function MobileNavDrawer({ open, onClose }: MobileNavDrawerProps) {
             type="button"
             className="countach-mobile-drawer__close"
             aria-label="Close navigation"
+            tabIndex={open ? 0 : -1}
             onClick={onClose}
           >
             ✕
@@ -118,6 +130,7 @@ export function MobileNavDrawer({ open, onClose }: MobileNavDrawerProps) {
                   "countach-mobile-drawer__link",
                   isActive && "countach-mobile-drawer__link--active",
                 )}
+                tabIndex={open ? 0 : -1}
                 onClick={onClose}
               >
                 {DRAWER_LABELS[item.href] ?? item.label}
@@ -136,6 +149,7 @@ export function MobileNavDrawer({ open, onClose }: MobileNavDrawerProps) {
             disabled={!bootReady}
             onClick={startStream}
             className="countach-dash-btn countach-dash-btn--run min-h-11 flex-1"
+            tabIndex={open ? 0 : -1}
           >
             Start
           </button>
@@ -144,6 +158,7 @@ export function MobileNavDrawer({ open, onClose }: MobileNavDrawerProps) {
             disabled={!bootReady}
             onClick={pauseStream}
             className="countach-dash-btn min-h-11 flex-1"
+            tabIndex={open ? 0 : -1}
           >
             Pause
           </button>
@@ -152,6 +167,7 @@ export function MobileNavDrawer({ open, onClose }: MobileNavDrawerProps) {
             disabled={!bootReady}
             onClick={resetStream}
             className="countach-dash-btn min-h-11 flex-1"
+            tabIndex={open ? 0 : -1}
           >
             Reset
           </button>
@@ -160,6 +176,7 @@ export function MobileNavDrawer({ open, onClose }: MobileNavDrawerProps) {
             disabled={!bootReady}
             onClick={injectFailureRisk}
             className="countach-dash-btn countach-dash-btn--danger min-h-11 flex-1"
+            tabIndex={open ? 0 : -1}
           >
             Inject
           </button>

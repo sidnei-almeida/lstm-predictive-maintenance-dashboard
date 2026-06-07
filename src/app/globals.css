@@ -2744,55 +2744,120 @@ body.dashboard-root {
 
 .countach-topbar-mobile {
   display: none;
-  height: 56px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: 52px;
   align-items: center;
   justify-content: space-between;
-  gap: 0.75rem;
-  border-bottom: 1px solid #ffaa00;
+  gap: 0.5rem;
+  border-bottom: 1px solid rgb(255 255 255 / 8%);
   background: #0a0a0a;
-  padding: 0 16px;
+  padding: 0 12px 0 10px;
+}
+
+.countach-topbar-mobile__left {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  align-items: center;
+  gap: 10px;
+}
+
+.countach-topbar-mobile__brand {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 6px;
+}
+
+.countach-topbar-mobile__dot {
+  width: 7px;
+  height: 7px;
+  flex-shrink: 0;
+  background: #00ff00;
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgb(0 255 0 / 55%);
 }
 
 .countach-topbar-mobile__title {
-  min-width: 0;
-  flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #ffaa00;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #ffffff;
 }
 
 .countach-topbar-mobile__actions {
   display: flex;
   flex-shrink: 0;
   align-items: center;
-  gap: 8px;
+  gap: 2px;
 }
 
 .countach-topbar-mobile__status {
   display: inline-flex;
-  min-width: 44px;
-  min-height: 44px;
+  min-width: 36px;
+  min-height: 36px;
   align-items: center;
   justify-content: center;
 }
 
-.countach-topbar-mobile__menu {
+/* Mobile menu toggle — 36px visual, 44px touch via ::before */
+.countach-mobile-menu-toggle {
+  position: relative;
   display: inline-flex;
-  min-width: 44px;
-  min-height: 44px;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  border: 1px solid #333333;
-  background: #050505;
-  font-size: 18px;
-  line-height: 1;
-  color: #ffaa00;
+  border: 1px solid rgb(255 255 255 / 12%);
+  border-radius: 8px;
+  background: transparent;
+  padding: 0;
+  color: rgb(255 255 255 / 82%);
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.countach-mobile-menu-toggle::before {
+  position: absolute;
+  inset: -4px;
+  content: "";
+}
+
+.countach-mobile-menu-toggle:hover,
+.countach-mobile-menu-toggle:active,
+.countach-mobile-menu-toggle--expanded {
+  border-color: rgb(0 255 0 / 35%);
+  background: rgb(0 255 0 / 8%);
+  color: #00ff00;
+}
+
+.countach-mobile-menu-toggle__line {
+  transform-origin: center;
+  transition:
+    transform 0.25s ease,
+    opacity 0.15s ease;
+}
+
+.countach-mobile-menu-toggle--expanded .countach-mobile-menu-toggle__line--top {
+  transform: translate(3px, 5px) rotate(45deg);
+}
+
+.countach-mobile-menu-toggle--expanded .countach-mobile-menu-toggle__line--mid {
+  opacity: 0;
+}
+
+.countach-mobile-menu-toggle--expanded .countach-mobile-menu-toggle__line--bot {
+  transform: translate(3px, -5px) rotate(-45deg);
 }
 
 .countach-section-tabs {
@@ -2851,36 +2916,48 @@ body.dashboard-root {
   position: fixed;
   inset: 0;
   z-index: 1100;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.countach-mobile-drawer-root--open {
+  pointer-events: auto;
+  visibility: visible;
 }
 
 .countach-mobile-drawer-backdrop {
   position: absolute;
   inset: 0;
   border: none;
-  background: rgb(0 0 0 / 72%);
-  backdrop-filter: blur(4px);
+  background: rgb(0 0 0 / 60%);
+  opacity: 0;
+  backdrop-filter: blur(2px);
+  transition: opacity 0.25s ease;
+}
+
+.countach-mobile-drawer-root--open .countach-mobile-drawer-backdrop {
+  opacity: 1;
 }
 
 .countach-mobile-drawer {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
+  bottom: 0;
   display: flex;
-  width: min(280px, 80vw);
-  height: 100%;
+  width: min(260px, 78vw);
   flex-direction: column;
-  border-right: 1px solid #ffaa00;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border-right: 1px solid rgb(255 255 255 / 8%);
   background: #0a0a0a;
-  animation: countach-drawer-in 250ms ease-out forwards;
+  transform: translateX(-100%);
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
 }
 
-@keyframes countach-drawer-in {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(0);
-  }
+.countach-mobile-drawer--open {
+  transform: translateX(0);
 }
 
 .countach-mobile-drawer__header {
@@ -2894,14 +2971,23 @@ body.dashboard-root {
 .countach-mobile-drawer__close {
   margin-left: auto;
   display: inline-flex;
-  min-width: 44px;
-  min-height: 44px;
+  min-width: 36px;
+  min-height: 36px;
   align-items: center;
   justify-content: center;
-  border: 1px solid #333333;
-  background: #050505;
-  color: #ffaa00;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: rgb(255 255 255 / 50%);
   font-size: 14px;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.countach-mobile-drawer__close:hover {
+  background: rgb(255 255 255 / 6%);
+  color: #ffffff;
 }
 
 .countach-mobile-drawer__status {
@@ -2974,6 +3060,115 @@ body.dashboard-root {
     padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px));
   }
 
+  .countach-page-grid > .flex.flex-col.gap-\[3px\] {
+    gap: 12px !important;
+    padding: 12px !important;
+  }
+
+  .countach-dashboard-hero {
+    min-height: 140px;
+  }
+
+  .countach-dashboard-hero__content {
+    padding-right: 12px !important;
+  }
+
+  .countach-dashboard-hero__logo {
+    height: 2.75rem !important;
+  }
+
+  .countach-dashboard-hero__title {
+    font-size: 14px !important;
+    line-height: 1.25 !important;
+  }
+
+  .countach-dashboard-hero__subtitle {
+    font-size: 10px !important;
+    line-height: 1.4 !important;
+  }
+
+  .countach-dashboard-blackout .retro-panel {
+    overflow: visible;
+    height: auto !important;
+  }
+
+  .countach-dashboard-blackout .retro-panel.h-full {
+    height: auto !important;
+  }
+
+  .countach-dashboard-blackout .retro-panel.min-h-\[260px\] {
+    min-height: 260px !important;
+  }
+
+  .countach-dashboard-blackout .retro-panel.min-h-\[300px\] {
+    min-height: 300px !important;
+  }
+
+  .countach-dashboard-blackout .retro-panel.min-h-\[200px\] {
+    min-height: 200px !important;
+  }
+
+  .countach-dashboard-blackout .retro-panel-body {
+    overflow: visible;
+    min-height: auto !important;
+    flex: none !important;
+  }
+
+  .countach-dashboard-blackout .retro-panel .h-full:not(.countach-dashboard-hero) {
+    height: auto !important;
+  }
+
+  .countach-dashboard-blackout .retro-panel .min-h-0.flex-1,
+  .countach-dashboard-blackout .retro-panel .flex-1.min-h-0,
+  .countach-dashboard-blackout .retro-panel-body.min-h-0 {
+    min-height: auto !important;
+    flex: none !important;
+  }
+
+  .countach-dashboard-blackout .retro-panel .grid.min-h-\[15rem\] {
+    display: grid !important;
+    min-height: 15rem !important;
+    height: auto !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .countach-dashboard-blackout .retro-panel .min-h-\[4\.75rem\] {
+    min-height: 4.75rem !important;
+  }
+
+  .countach-mobile-panel .retro-panel {
+    height: auto !important;
+  }
+
+  .countach-page-grid .retro-panel {
+    margin-bottom: 12px;
+  }
+
+  .countach-page-grid .retro-panel:last-child {
+    margin-bottom: 0;
+  }
+
+  .retro-panel-header {
+    padding: 12px 14px;
+  }
+
+  .countach-dashboard-blackout .retro-panel-body:not(.p-0):not(.asset-health-body):not(.machine-condition-body) {
+    padding: 12px 14px;
+  }
+
+  .card-title {
+    font-size: 11px;
+  }
+
+  .card-subtitle {
+    font-size: 10px;
+    margin-top: 4px;
+  }
+
+  .countach-section-tabs {
+    margin-bottom: 4px;
+  }
+
   .retro-canvas {
     border-left: none !important;
   }
@@ -3039,6 +3234,11 @@ body.dashboard-root {
   .countach-page-grid .grid.grid-cols-3:not(.machine-condition-sensor-grid):not(.asset-health-led-matrix),
   .countach-page-grid .grid.min-h-\[400px\].grid-cols-2 {
     grid-template-columns: minmax(0, 1fr) !important;
+    min-height: auto !important;
+  }
+
+  .countach-page-grid .grid.min-h-\[400px\] > section {
+    min-height: 280px;
   }
 
   .countach-page-grid .grid.grid-cols-2:not(.machine-condition-sensor-grid):not(.asset-health-led-matrix):not(.machine-condition-summary-grid):not(.countach-tile-grid):not(.vfd-kpi-grid) {
@@ -3072,7 +3272,7 @@ body.dashboard-root {
 }
 
 @media (max-width: 375px) {
-  .countach-topbar-mobile__title {
+  .countach-topbar-mobile__brand .countach-topbar-mobile__title {
     display: none;
   }
 

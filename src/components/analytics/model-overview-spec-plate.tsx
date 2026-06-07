@@ -33,7 +33,7 @@ export function ModelOverviewSpecPlate({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "grid h-full min-h-[15rem] flex-1 grid-cols-2 gap-2",
+        "grid min-h-[15rem] grid-cols-2 gap-2 md:h-full md:flex-1",
         className,
       )}
     >

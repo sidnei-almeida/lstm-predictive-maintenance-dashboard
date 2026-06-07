@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 
+import { MobileMenuToggle } from "@/components/layout/mobile-menu-toggle";
 import { PmMonitorLogo } from "@/components/layout/pm-monitor-logo";
 import { APP_SUBTITLE, APP_TITLE, CONTEXT_LABELS, ROUTES_WITH_SECTION_HERO } from "@/lib/navigation";
 import { streamStatusLabel } from "@/lib/maintenance/status";
@@ -11,10 +12,11 @@ import { useMaintenanceStore } from "@/store/maintenance-store";
 import { LiveClock } from "./live-clock";
 
 type TopbarProps = {
-  onMenuOpen?: () => void;
+  drawerOpen?: boolean;
+  onMenuToggle?: () => void;
 };
 
-export function Topbar({ onMenuOpen }: TopbarProps) {
+export function Topbar({ drawerOpen = false, onMenuToggle }: TopbarProps) {
   const pathname = usePathname();
   const hasSectionHero =
     ROUTES_WITH_SECTION_HERO.includes(pathname as (typeof ROUTES_WITH_SECTION_HERO)[number]);
@@ -43,8 +45,15 @@ export function Topbar({ onMenuOpen }: TopbarProps) {
       )}
     >
       <div className="countach-topbar-mobile">
-        <PmMonitorLogo className="h-8 w-8 shrink-0" title="PM Monitor" />
-        <p className="countach-topbar-mobile__title">PREDICTIVE MONITOR</p>
+        <div className="countach-topbar-mobile__left">
+          <MobileMenuToggle expanded={drawerOpen} onClick={() => onMenuToggle?.()} />
+          <PmMonitorLogo className="countach-topbar-mobile__logo h-7 w-7 shrink-0" title="PM Monitor" />
+          <div className="countach-topbar-mobile__brand min-w-0">
+            <span className="countach-topbar-mobile__dot" aria-hidden />
+            <span className="countach-topbar-mobile__title">PM Monitor</span>
+          </div>
+        </div>
+
         <div className="countach-topbar-mobile__actions">
           <span className="countach-topbar-mobile__status" title={apiLabel}>
             <span
@@ -70,14 +79,6 @@ export function Topbar({ onMenuOpen }: TopbarProps) {
             />
             <span className="sr-only">Stream {streamLabel}</span>
           </span>
-          <button
-            type="button"
-            className="countach-topbar-mobile__menu"
-            aria-label="Open navigation menu"
-            onClick={onMenuOpen}
-          >
-            ☰
-          </button>
         </div>
       </div>
 
