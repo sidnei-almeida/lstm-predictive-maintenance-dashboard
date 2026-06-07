@@ -154,6 +154,12 @@
   --topbar-text-soft: #ebe2c4;
   --topbar-border: #d4bc78;
   --topbar-btn-bg: #0e0d08;
+
+  /* Scrollbar — VFD / cockpit */
+  --countach-scrollbar-track: #0a0a0a;
+  --countach-scrollbar-thumb: #333333;
+  --countach-scrollbar-thumb-hover: #ffaa00;
+  --countach-scrollbar-border: #222222;
 }
 
 html {
@@ -183,12 +189,56 @@ body.dashboard-root {
     @apply border-border outline-ring/40;
     border-radius: 0;
   }
+  html.countach-tiling-manager {
+    color-scheme: dark;
+  }
   body {
     @apply bg-[#000000] text-foreground antialiased;
     font-feature-settings: "tnum" 1;
   }
   html {
     @apply font-sans;
+  }
+
+  /* Countach scrollbar — replaces native browser chrome */
+  .countach-tiling-manager,
+  .countach-tiling-manager * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--countach-scrollbar-thumb) var(--countach-scrollbar-track);
+  }
+
+  .countach-tiling-manager *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .countach-tiling-manager *::-webkit-scrollbar-track {
+    background: var(--countach-scrollbar-track);
+    border-left: 1px solid var(--countach-scrollbar-border);
+  }
+
+  .countach-tiling-manager *::-webkit-scrollbar-thumb {
+    background-color: var(--countach-scrollbar-thumb);
+    border: 1px solid var(--countach-scrollbar-border);
+    border-radius: 0;
+  }
+
+  .countach-tiling-manager *::-webkit-scrollbar-thumb:hover {
+    background-color: var(--countach-scrollbar-thumb-hover);
+    border-color: var(--countach-scrollbar-thumb-hover);
+    box-shadow: 0 0 6px rgb(255 170 0 / 35%);
+  }
+
+  .countach-tiling-manager *::-webkit-scrollbar-corner {
+    background: var(--countach-scrollbar-track);
+  }
+
+  .countach-tiling-manager .countach-section-tabs {
+    scrollbar-width: none;
+  }
+
+  .countach-tiling-manager .countach-section-tabs::-webkit-scrollbar {
+    display: none;
   }
 }
 
