@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 
+import { PmMonitorLogo } from "@/components/layout/pm-monitor-logo";
 import { APP_SUBTITLE, APP_TITLE, CONTEXT_LABELS, ROUTES_WITH_SECTION_HERO } from "@/lib/navigation";
 import { streamStatusLabel } from "@/lib/maintenance/status";
 import { cn } from "@/lib/utils";
@@ -9,7 +10,11 @@ import { useMaintenanceStore } from "@/store/maintenance-store";
 
 import { LiveClock } from "./live-clock";
 
-export function Topbar() {
+type TopbarProps = {
+  onMenuOpen?: () => void;
+};
+
+export function Topbar({ onMenuOpen }: TopbarProps) {
   const pathname = usePathname();
   const hasSectionHero =
     ROUTES_WITH_SECTION_HERO.includes(pathname as (typeof ROUTES_WITH_SECTION_HERO)[number]);
@@ -37,7 +42,46 @@ export function Topbar() {
         !hasSectionHero && "border-b border-[#333333]",
       )}
     >
-      <div className="countach-topbar">
+      <div className="countach-topbar-mobile">
+        <PmMonitorLogo className="h-8 w-8 shrink-0" title="PM Monitor" />
+        <p className="countach-topbar-mobile__title">PREDICTIVE MONITOR</p>
+        <div className="countach-topbar-mobile__actions">
+          <span className="countach-topbar-mobile__status" title={apiLabel}>
+            <span
+              className={cn(
+                "countach-topbar-led",
+                apiHealthy ? "countach-topbar-led--on" : "countach-topbar-led--off",
+              )}
+              aria-hidden
+            />
+            <span className="sr-only">{apiLabel}</span>
+          </span>
+          <span className="countach-topbar-mobile__status" title={`Stream ${streamLabel}`}>
+            <span
+              className={cn(
+                "countach-topbar-led",
+                streamStatus === "live"
+                  ? "countach-topbar-led--on"
+                  : streamStatus === "paused"
+                    ? "countach-topbar-led--warn"
+                    : "countach-topbar-led--off",
+              )}
+              aria-hidden
+            />
+            <span className="sr-only">Stream {streamLabel}</span>
+          </span>
+          <button
+            type="button"
+            className="countach-topbar-mobile__menu"
+            aria-label="Open navigation menu"
+            onClick={onMenuOpen}
+          >
+            ☰
+          </button>
+        </div>
+      </div>
+
+      <div className="countach-topbar countach-topbar-desktop">
         <div className="countach-topbar-context">
           {CONTEXT_LABELS.map((label) => (
             <span key={label}>{label}</span>

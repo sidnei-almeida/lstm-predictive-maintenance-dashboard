@@ -12,15 +12,17 @@ export function TopKpiCard({
   value,
   tone = "default",
   vfdValueKind,
+  className,
 }: {
   label: string;
   value: ReactNode;
   tone?: TopKpiTone;
   vfdValueKind?: VfdValueKind;
+  className?: string;
 }) {
   if (vfdValueKind) {
     return (
-      <div className="vfd-kpi-card">
+      <div className={cn("vfd-kpi-card", className)}>
         <p className="vfd-kpi-label">{label}</p>
         <p className={cn("vfd-kpi-value", `vfd-kpi-value--${vfdValueKind}`)}>{value}</p>
       </div>

@@ -1,6 +1,7 @@
 import { DashboardHero } from "@/components/layout/dashboard-hero";
 
 import { AssetHealthOverview } from "./asset-health-overview";
+import { DashboardPanelTabs } from "./dashboard-panel-tabs";
 import { EventLog } from "./event-log";
 import { FailureProbabilityTrend } from "./failure-probability-trend";
 import { KpiRow } from "./kpi-row";
@@ -15,26 +16,28 @@ export function DashboardView() {
     <div className="countach-dashboard-blackout countach-page-grid flex min-h-full flex-col bg-[#000000]">
       <DashboardHero />
       <div className="flex flex-col gap-[3px] p-[3px]">
-      <KpiRow />
-      <PipelineStrip />
+        <KpiRow />
+        <PipelineStrip />
 
-      <section aria-label="Main operations">
-        <div className="grid grid-cols-3 gap-[3px]">
-          <AssetHealthOverview />
-          <MachineCondition />
-          <MaintenanceDecision />
-        </div>
-      </section>
+        <DashboardPanelTabs
+          ariaLabel="Main operations"
+          tabs={[
+            { id: "health", label: "Asset Health", panel: <AssetHealthOverview /> },
+            { id: "machines", label: "Machines", panel: <MachineCondition /> },
+            { id: "maintenance", label: "Maintenance", panel: <MaintenanceDecision /> },
+          ]}
+        />
 
-      <section aria-label="Secondary analytics">
-        <div className="grid grid-cols-3 gap-[3px]">
-          <FailureProbabilityTrend />
-          <SequenceBuffer />
-          <RiskDrivers />
-        </div>
-      </section>
+        <DashboardPanelTabs
+          ariaLabel="Secondary analytics"
+          tabs={[
+            { id: "trend", label: "Trend", panel: <FailureProbabilityTrend /> },
+            { id: "buffer", label: "Buffer", panel: <SequenceBuffer /> },
+            { id: "risk", label: "Risk", panel: <RiskDrivers /> },
+          ]}
+        />
 
-      <EventLog />
+        <EventLog />
       </div>
     </div>
   );

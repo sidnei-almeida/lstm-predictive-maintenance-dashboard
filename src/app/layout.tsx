@@ -14,8 +14,10 @@ const geistMono = Geist_Mono({
 });
 
 export const viewport: Viewport = {
-  width: 1440,
+  width: "device-width",
   initialScale: 1,
+  maximumScale: 1,
+  themeColor: "#000000",
 };
 
 export const metadata: Metadata = {
@@ -23,7 +25,6 @@ export const metadata: Metadata = {
   description:
     "Historical CSV replayed as a simulated IoT machine stream with LSTM failure-risk inference.",
   manifest: "/site.webmanifest",
-  themeColor: "#000000",
   icons: {
     icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
     apple: "/apple-icon.png",
@@ -41,7 +42,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} countach-tiling-manager h-full bg-[#000000]`}
     >
-      <body className="dashboard-desktop-root h-full overflow-hidden bg-[#000000]">
+      <body className="dashboard-root h-full overflow-hidden bg-[#000000]">
         {children}
       </body>
     </html>

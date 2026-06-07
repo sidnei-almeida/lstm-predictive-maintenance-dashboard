@@ -5,13 +5,16 @@ import {
   Line,
   LineChart,
   ReferenceLine,
-  ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
 
 import { DashboardPanel } from "@/components/layout/dashboard-panel";
+import {
+  ALERTS_TIMELINE_CHART_HEIGHT,
+  VfdChartFrame,
+} from "@/components/charts/vfd-chart-frame";
 import type { ApiEventStats, OutcomeSummary, TimelinePoint } from "@/lib/events";
 import {
   deriveModelPrediction,
@@ -38,13 +41,12 @@ export function RiskEventTimeline({ points }: { points: TimelinePoint[] }) {
       {points.length === 0 ? (
         <p className="card-footnote px-3 py-2">No processed predictions in session yet.</p>
       ) : (
-        <div className="countach-chart-plot relative h-[160px] w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart
-              data={points}
-              margin={VFD_CHART_MARGIN}
-              style={{ background: VFD_PLOT.bg }}
-            >
+        <VfdChartFrame height={ALERTS_TIMELINE_CHART_HEIGHT}>
+          <LineChart
+            data={points}
+            margin={VFD_CHART_MARGIN}
+            style={{ background: VFD_PLOT.bg }}
+          >
               <CartesianGrid {...VFD_GRID} />
               <XAxis dataKey="packetId" tick={VFD_AXIS_TICK} {...VFD_AXIS_FRAME} />
               <YAxis
@@ -125,9 +127,8 @@ export function RiskEventTimeline({ points }: { points: TimelinePoint[] }) {
                   );
                 }}
               />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
+          </LineChart>
+        </VfdChartFrame>
       )}
       <p className="mt-2 text-[10px] text-muted-foreground">
         Elevated = prob ≥ 40% · Failure risk = prob ≥ threshold · red = known failure row

@@ -5,13 +5,16 @@ import {
   Line,
   LineChart,
   ReferenceLine,
-  ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
 
 import { DashboardPanel } from "@/components/layout/dashboard-panel";
+import {
+  VfdChartFrame,
+  DASHBOARD_TREND_CHART_HEIGHT,
+} from "@/components/charts/vfd-chart-frame";
 import {
   VFD_AXIS_FRAME,
   VFD_AXIS_TICK,
@@ -87,22 +90,24 @@ export function FailureProbabilityTrend() {
       bodyClassName="flex min-h-0 flex-1 flex-col p-0"
     >
       {!hasTrend ? (
-        <div className="countach-chart-plot flex min-h-[280px] flex-1 items-center justify-center">
+        <div
+          className="countach-chart-plot flex items-center justify-center"
+          style={{ height: DASHBOARD_TREND_CHART_HEIGHT }}
+        >
           <p
-            className="px-4 text-center font-mono text-[9px] font-medium uppercase tracking-[0.2em] text-[#666666]"
+            className="px-4 text-center font-mono text-[10px] font-medium uppercase tracking-[0.2em] text-[#666666]"
             style={{ fontFamily: VFD_MONO }}
           >
             Waiting for inference trend
           </p>
         </div>
       ) : (
-        <div className="countach-chart-plot relative min-h-[280px] w-full flex-1">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart
-              data={data}
-              margin={VFD_CHART_MARGIN}
-              style={{ background: VFD_PLOT.bg }}
-            >
+        <VfdChartFrame height={DASHBOARD_TREND_CHART_HEIGHT}>
+          <LineChart
+            data={data}
+            margin={VFD_CHART_MARGIN}
+            style={{ background: VFD_PLOT.bg }}
+          >
               <CartesianGrid {...VFD_GRID} />
               <XAxis
                 dataKey="timeLabel"
@@ -183,9 +188,8 @@ export function FailureProbabilityTrend() {
                   );
                 }}
               />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
+          </LineChart>
+        </VfdChartFrame>
       )}
     </DashboardPanel>
   );
