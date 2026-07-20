@@ -9,16 +9,14 @@
 </p>
 
 <p align="center">
-  <strong>Next.js · TypeScript · Tailwind · Recharts · TensorFlow LSTM API</strong><br />
+  <strong>Next.js · TypeScript · Tailwind · Recharts · in-process LSTM inference</strong><br />
   <em>1988 Countach blackout console for AI4I failure-risk monitoring, CSV replay, and ground-truth audit.</em>
 </p>
 
 <p align="center">
   <a href="https://github.com/sidnei-almeida/lstm-predictive-maintenance-dashboard"><strong>View on GitHub</strong></a>
   &nbsp;·&nbsp;
-  <a href="https://salmeida-predictive-maintenance-lstm.hf.space">LSTM Inference API</a>
-  &nbsp;·&nbsp;
-  <a href="https://salmeida-predictive-maintenance-lstm.hf.space/docs">API docs (OpenAPI)</a>
+  <a href="#inference-api">Inference API</a>
   &nbsp;·&nbsp;
   <a href="https://archive.ics.uci.edu/ml/datasets/AI4I+2020+Predictive+Maintenance+Dataset">AI4I Dataset (UCI)</a>
 </p>
@@ -32,7 +30,7 @@
   <img src="https://img.shields.io/badge/Model-LSTM-8B5CF6?style=flat" alt="LSTM" />
   <img src="https://img.shields.io/badge/Dataset-AI4I_10k-F59E0B?style=flat" alt="AI4I 10k rows" />
   <img src="https://img.shields.io/badge/Failure_Rate-3.39%25-red?style=flat" alt="Failure rate" />
-  <img src="https://img.shields.io/badge/API-Hugging_Face-FF9A00?logo=huggingface&logoColor=white" alt="Hugging Face Spaces" />
+  <img src="https://img.shields.io/badge/Inference-In_process_TS-3178C6?logo=typescript&logoColor=white" alt="In-process TypeScript inference" />
   <img src="https://img.shields.io/badge/Deploy-Vercel-000000?logo=vercel&logoColor=white" alt="Vercel" />
 </p>
 
@@ -40,7 +38,7 @@
 
 ## Executive summary
 
-This repository is a **production-style predictive maintenance console** for rotating industrial equipment. It streams the **AI4I 2020** dataset as if it were live IoT telemetry, maintains a rolling **50-step LSTM input window**, and queries a deployed **TensorFlow LSTM** for continuous **failure probability** (0–100%).
+This repository is a **production-style predictive maintenance console** for rotating industrial equipment. It streams the **AI4I 2020** dataset as if it were live IoT telemetry, maintains a rolling **50-step LSTM input window**, and runs the trained **LSTM** for continuous **failure probability** (0–100%).
 
 The interface is deliberately **not** a generic admin template: it mimics a **1988 Lamborghini Countach / blackout tiling manager** — black glassless panels, 1px grids, VFD phosphor readouts (amber · green · gray), and monospace diagnostic typography suitable for long monitoring sessions.
 
@@ -50,7 +48,7 @@ The interface is deliberately **not** a generic admin template: it mimics a **19
 | **Machine failures (ground truth)** | 339 (**3.39%**) — highly imbalanced |
 | **LSTM input tensor** | `[50 × 7]` per inference |
 | **Maintenance threshold** | **50%** failure probability |
-| **Default API** | Hugging Face Spaces FastAPI |
+| **Inference** | In-process TypeScript, same Vercel deployment |
 
 ---
 
@@ -61,11 +59,12 @@ A **full-stack predictive maintenance operations dashboard** that:
 1. Loads **raw CSV** for human-readable sensor display and audit trails.
 2. Loads **preprocessed NumPy tensors** (`X_processed.npy`, `y_processed.npy`) for model payloads and ground-truth comparison.
 3. Replays historical rows on a timer as a **simulated machine stream** (curated demo or sequential).
-4. Calls **`POST /predict`** on every full sequence window — the browser never ships model weights.
+4. Calls **`POST /api/predict`** on every full sequence window — the browser never ships model weights.
 
-It is the modern successor to **[PulseBridge](https://github.com/sidnei-almeida/sidnei-almeida.github.io/tree/main/projects/predictive-maintenance)** (static HTML + gauge UI), with the **same inference endpoint**, plus dataset analytics, event audit, and simulation controls.
+It is the modern successor to **[PulseBridge](https://github.com/sidnei-almeida/sidnei-almeida.github.io/tree/main/projects/predictive-maintenance)** (static HTML + gauge UI), with the **same inference contract**, plus dataset analytics, event audit, and simulation controls.
 
-> **Inference API (default):** `https://salmeida-predictive-maintenance-lstm.hf.space`
+> **Inference runs inside this app** — see [Inference API](#inference-api). There is no external
+> service to deploy and no cold start.
 
 ---
 
@@ -132,10 +131,10 @@ flowchart TB
     EVT["Event audit log"]
   end
 
-  subgraph API["LSTM API (HF Spaces)"]
-    HEALTH["GET /health"]
-    PRED["POST /predict"]
-    META["GET /metadata"]
+  subgraph API["Next.js route handlers (same deployment)"]
+    HEALTH["GET /api/health"]
+    PRED["POST /api/predict"]
+    META["GET /api/metadata"]
   end
 
   CSV --> BOOT
@@ -273,7 +272,7 @@ Tokens: `src/app/globals.css`, `src/lib/theme/tokens.ts`, `src/lib/charts/vfd-te
 | Charts | Recharts 3 |
 | CSV | PapaParse |
 | Tensors | NumPy → `data/.cache/processed.bin` |
-| Inference | REST → Hugging Face Spaces FastAPI |
+| Inference | Pure TypeScript LSTM in Next.js route handlers |
 
 ---
 
@@ -282,7 +281,9 @@ Tokens: `src/app/globals.css`, `src/lib/theme/tokens.ts`, `src/lib/charts/vfd-te
 - **Node.js** 20+
 - **npm** (or pnpm / yarn)
 - **Python 3** + `numpy` — only to rebuild `processed.bin`
-- Network access to the LSTM API (or local FastAPI with CORS)
+- **Python 3** + `keras`, `jax`, `h5py`, `scipy` — only to re-extract model weights
+
+Inference itself needs nothing but Node — no Python, no network calls.
 
 ---
 
@@ -292,20 +293,17 @@ All settings use the `NEXT_PUBLIC_` prefix (embedded in the client bundle at bui
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| `NEXT_PUBLIC_PRED_MAINT_API_URL` | No | `https://salmeida-predictive-maintenance-lstm.hf.space` | LSTM FastAPI base URL |
+| `NEXT_PUBLIC_PRED_MAINT_API_URL` | No | `/api` (this app) | Override only to use an external inference backend |
 | `NEXT_PUBLIC_REPLAY_INTERVAL_MS` | No | `1000` | CSV replay interval (ms) |
 | `NEXT_PUBLIC_DEBUG_INFERENCE` | No | `false` in prod | `true` → `/predict` debug logs + panel |
 
 `NODE_ENV` is set automatically by Vercel.
 
+**No environment variables are required.** Inference is served by this same app,
+so a bare `vercel deploy` works with zero configuration.
+
 ```bash
 cp .env.example .env.local
-```
-
-**Local FastAPI** (uvicorn `:7860` with CORS):
-
-```env
-NEXT_PUBLIC_PRED_MAINT_API_URL=http://localhost:7860
 ```
 
 ---
@@ -332,7 +330,7 @@ Open [http://localhost:3000](http://localhost:3000).
 3. Use **Inject** to push a failure-adjacent historical window through the model.
 4. Open **Alerts** to audit predictions vs ground truth.
 
-> **Cold start:** Hugging Face Spaces free tier may take **30–60 seconds** on first `/health`. The UI reports wake-up status during boot.
+> Inference is in-process, so `/api/health` answers immediately — no external wake-up wait.
 
 ### Production build
 
@@ -346,20 +344,16 @@ npm start
 ## Deploy on Vercel
 
 1. Import the repository on [Vercel](https://vercel.com) — preset **Next.js**.
-2. **Settings → Environment Variables** (Production + Preview + Development):
+2. Deploy. **No environment variables are required** — the dashboard and its
+   inference API ship as one project.
+3. Committed build inputs (Vercel has no Python at build time):
+   - `data/pred_maint.csv`, `X_processed.npy`, `y_processed.npy`
+   - `data/.cache/processed.bin` (~290 KB)
+   - `src/lib/model/weights.ts` (~97 KB, generated from the `.keras` file)
 
-| Name | Recommended value |
-|------|-------------------|
-| `NEXT_PUBLIC_PRED_MAINT_API_URL` | `https://salmeida-predictive-maintenance-lstm.hf.space` |
-| `NEXT_PUBLIC_REPLAY_INTERVAL_MS` | `1000` |
-| `NEXT_PUBLIC_DEBUG_INFERENCE` | `false` |
+Optional overrides: `NEXT_PUBLIC_REPLAY_INTERVAL_MS`, `NEXT_PUBLIC_DEBUG_INFERENCE`.
 
-3. Commit **`data/pred_maint.csv`**, **`X_processed.npy`**, **`y_processed.npy`**, and **`data/.cache/processed.bin`** (~290 KB, required — Vercel has no Python/NumPy at build).
-4. Deploy. Icons: `src/app/icon.svg`, `favicon.ico`, `apple-icon.png`, `public/icons/*`.
-
-To regenerate the cache locally: `npm run data:cache` then `git add -f data/.cache/processed.bin`.
-
-> First load may take **30–60 s** while Hugging Face Spaces cold-starts; the boot overlay retries `/health` automatically.
+To regenerate the data cache: `npm run data:cache` then `git add -f data/.cache/processed.bin`.
 
 ---
 
@@ -400,17 +394,46 @@ lstm-predictive-maintenance-dashboard/
 
 ---
 
-## API surface
+## Inference API
+
+The trained LSTM runs **inside this Next.js app** as route handlers — there is no
+external service, no Python at runtime, and no cold start.
 
 | Endpoint | Method | Role |
 |----------|--------|------|
-| `/health` | GET | Model/data loaded, TensorFlow availability |
-| `/predict` | POST | Sequence in → failure probability out |
-| `/metadata` | GET | Model version, features, training summary |
+| `/api/health` | GET | Runs a probe inference to confirm the weights loaded |
+| `/api/predict` | POST | `{sequence: number[][]}` → failure probability |
+| `/api/metadata` | GET | Model version, features, training summary |
 
-**Default host:** [salmeida-predictive-maintenance-lstm.hf.space](https://salmeida-predictive-maintenance-lstm.hf.space)
+Sequences shorter than 50 steps are padded with their last row; longer ones are
+truncated to the most recent 50 — matching the original service's behaviour.
 
 The UI parses `predicted_probability` → `probability` → `prediction_probability` and **ignores** binary class fields for the gauge.
+
+### How the model got here
+
+`model/predictive_maintenance_model.keras` is the trained artifact
+(LSTM(64) → Dropout(0.2) → Dense(1, sigmoid), 18,497 parameters). Rather than
+ship a tensor runtime for a model this small, the weights are extracted to
+base64 float32 and the forward pass is written directly in TypeScript:
+
+```
+model/predictive_maintenance_model.keras
+  └─ scripts/extract-model-weights.py     (dev only)
+       ├─ src/lib/model/weights.ts         generated, committed
+       └─ src/lib/model/golden-fixtures.json  28 Keras reference predictions
+            └─ scripts/verify-model-parity.ts → npm run model:verify
+```
+
+```bash
+npm run model:verify
+# Checked 28 golden cases against Keras output.
+# Largest deviation: 1.851e-7, tolerance 1e-5.
+# PASS — TypeScript inference matches the Keras model.
+```
+
+Re-run `npm run model:extract` whenever the trained model changes, then commit
+the regenerated `weights.ts` and `golden-fixtures.json`.
 
 ---
 
@@ -432,7 +455,7 @@ The UI parses `predicted_probability` → `probability` → `prediction_probabil
 
 | Project | Role |
 |---------|------|
-| [salmeida-predictive-maintenance-lstm](https://huggingface.co/spaces/salmeida/predictive-maintenance-lstm) | TensorFlow LSTM + FastAPI |
+| [predictive_maintenance_lstm](https://github.com/sidnei-almeida/predictive_maintenance_lstm) | Model training + the original FastAPI service |
 | [PulseBridge (legacy)](https://github.com/sidnei-almeida/sidnei-almeida.github.io/tree/main/projects/predictive-maintenance) | Original static HTML dashboard |
 | [AI4I 2020 (UCI)](https://archive.ics.uci.edu/ml/datasets/AI4I+2020+Predictive+Maintenance+Dataset) | Source dataset documentation |
 | **This repo** | Next.js operations console & audit UI |
