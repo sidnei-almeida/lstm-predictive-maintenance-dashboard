@@ -7,3 +7,9 @@
  * different backend.
  */
 export const DEFAULT_PRED_MAINT_API_URL = "/api";
+
+/**
+ * The Hugging Face Space that used to serve inference. Deployments may still
+ * carry it in NEXT_PUBLIC_PRED_MAINT_API_URL; getApiBaseUrl() ignores it.
+ */
+export const RETIRED_INFERENCE_HOST = "salmeida-predictive-maintenance-lstm.hf.space";

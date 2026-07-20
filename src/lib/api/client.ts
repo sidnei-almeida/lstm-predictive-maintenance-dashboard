@@ -1,12 +1,37 @@
 import type { ApiPredictPayload, FeatureVector } from "@/lib/types/maintenance";
 
-import { DEFAULT_PRED_MAINT_API_URL } from "./constants";
+import { DEFAULT_PRED_MAINT_API_URL, RETIRED_INFERENCE_HOST } from "./constants";
 import { isInferenceDebugEnabled } from "./debug-inference";
 
+let warnedAboutRetiredHost = false;
+
+/**
+ * Resolve the inference base URL.
+ *
+ * Inference moved into this app, so a deployment that still carries the old
+ * NEXT_PUBLIC_PRED_MAINT_API_URL pointing at the retired Hugging Face Space
+ * would hang on boot waiting for a service that is no longer maintained.
+ * That stale value is ignored rather than obeyed — an empty string is treated
+ * as unset for the same reason.
+ */
 export function getApiBaseUrl(): string {
-  return (
-    process.env.NEXT_PUBLIC_PRED_MAINT_API_URL ?? DEFAULT_PRED_MAINT_API_URL
-  ).replace(/\/$/, "");
+  const configured = process.env.NEXT_PUBLIC_PRED_MAINT_API_URL?.trim();
+
+  if (!configured) return DEFAULT_PRED_MAINT_API_URL;
+
+  if (configured.includes(RETIRED_INFERENCE_HOST)) {
+    if (!warnedAboutRetiredHost) {
+      warnedAboutRetiredHost = true;
+      console.warn(
+        `[PM] NEXT_PUBLIC_PRED_MAINT_API_URL points at ${RETIRED_INFERENCE_HOST}, ` +
+          "which no longer serves this dashboard. Falling back to in-process " +
+          `inference at "${DEFAULT_PRED_MAINT_API_URL}". Remove the variable to silence this.`,
+      );
+    }
+    return DEFAULT_PRED_MAINT_API_URL;
+  }
+
+  return configured.replace(/\/$/, "");
 }
 
 export type ApiMetadata = {
@@ -56,7 +81,7 @@ export async function fetchHealth(): Promise<{
     return res.json();
   } catch (error) {
     const hint =
-      " Verifique NEXT_PUBLIC_PRED_MAINT_API_URL (padrão: Hugging Face salmeida-predictive-maintenance-lstm).";
+      " Inference is served by this app at /api; check the deployment logs for route errors.";
     const message = error instanceof Error ? error.message : "Network error";
     throw new Error(`${message} — ${url}.${hint}`);
   }
