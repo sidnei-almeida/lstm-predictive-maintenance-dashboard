@@ -81,16 +81,17 @@ type ApiColdStartOverlayProps = {
   fadeOut?: boolean;
 };
 
-export function ApiColdStartOverlay({
-  bootPhase,
-  bootError,
-  fadeOut = false,
-}: ApiColdStartOverlayProps) {
-  const steps = useMemo(() => buildInitSteps(bootPhase), [bootPhase]);
+/**
+ * Types the boot log out one line at a time.
+ *
+ * Split out and keyed by boot phase at the call site so a phase change
+ * remounts it — the reveal restarts from an empty log without an effect
+ * having to reset state synchronously.
+ */
+function ColdStartLog({ steps }: { steps: InitStep[] }) {
   const [typedLines, setTypedLines] = useState(0);
 
   useEffect(() => {
-    setTypedLines(0);
     const timers: ReturnType<typeof setTimeout>[] = [];
     for (let i = 1; i <= steps.length; i += 1) {
       timers.push(
@@ -102,7 +103,45 @@ export function ApiColdStartOverlay({
     return () => {
       timers.forEach(clearTimeout);
     };
-  }, [steps.length, bootPhase]);
+  }, [steps.length]);
+
+  return (
+    <div className="countach-cold-start-log mt-6 space-y-1.5 font-mono text-[9px] uppercase leading-tight">
+      {steps.map((step, index) => {
+        const visible = index < typedLines;
+        const suffix = statusSuffix(step.status);
+        return (
+          <p
+            key={step.id}
+            className={cn(
+              "countach-cold-start-line text-left",
+              visible ? "opacity-100" : "opacity-0",
+              step.status === "pending" && "text-[#666666]",
+              step.status === "in_progress" && "animate-pulse text-[#ffaa00]",
+              step.status === "complete" && "text-[#00ff00]",
+            )}
+          >
+            <span className="text-[#888888]">{">"}</span>{" "}
+            {step.id === "init" ? (
+              <span>{step.label}...</span>
+            ) : (
+              <span>
+                [ {step.label} ] - {suffix}
+              </span>
+            )}
+          </p>
+        );
+      })}
+    </div>
+  );
+}
+
+export function ApiColdStartOverlay({
+  bootPhase,
+  bootError,
+  fadeOut = false,
+}: ApiColdStartOverlayProps) {
+  const steps = useMemo(() => buildInitSteps(bootPhase), [bootPhase]);
 
   return (
     <div
@@ -138,33 +177,7 @@ export function ApiColdStartOverlay({
           </div>
         </div>
 
-        <div className="countach-cold-start-log mt-6 space-y-1.5 font-mono text-[9px] uppercase leading-tight">
-          {steps.map((step, index) => {
-            const visible = index < typedLines;
-            const suffix = statusSuffix(step.status);
-            return (
-              <p
-                key={step.id}
-                className={cn(
-                  "countach-cold-start-line text-left",
-                  visible ? "opacity-100" : "opacity-0",
-                  step.status === "pending" && "text-[#666666]",
-                  step.status === "in_progress" && "animate-pulse text-[#ffaa00]",
-                  step.status === "complete" && "text-[#00ff00]",
-                )}
-              >
-                <span className="text-[#888888]">{">"}</span>{" "}
-                {step.id === "init" ? (
-                  <span>{step.label}...</span>
-                ) : (
-                  <span>
-                    [ {step.label} ] - {suffix}
-                  </span>
-                )}
-              </p>
-            );
-          })}
-        </div>
+        <ColdStartLog key={bootPhase} steps={steps} />
 
         {bootError ? (
           <p className="mt-4 border border-[#ff0000]/50 bg-[#050505] px-2 py-1.5 font-mono text-[9px] uppercase leading-tight text-[#ff0000]">

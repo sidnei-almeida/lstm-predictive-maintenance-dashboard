@@ -4,7 +4,7 @@ import { DashboardPanel } from "@/components/layout/dashboard-panel";
 import { TopKpiCard, TopKpiGrid, type VfdValueKind } from "@/components/layout/top-kpi-card";
 import type { DatasetAnalytics } from "@/lib/analytics/types";
 import { getApiBaseUrl } from "@/lib/api/client";
-import { SEQUENCE_LENGTH, THRESHOLD_DISPLAY } from "@/lib/features/constants";
+import { SEQUENCE_LENGTH } from "@/lib/features/constants";
 import { formatMetricPct } from "@/lib/metrics/format";
 import type { ModelMetricsBundle } from "@/lib/metrics/types";
 import { cn } from "@/lib/utils";
