@@ -4,6 +4,12 @@ import { usePathname } from "next/navigation";
 
 import { MobileMenuToggle } from "@/components/layout/mobile-menu-toggle";
 import { PmMonitorLogo } from "@/components/layout/pm-monitor-logo";
+import {
+  AlertGlyph,
+  PauseGlyph,
+  PlayGlyph,
+  StopGlyph,
+} from "@/components/layout/transport-icons";
 import { APP_SUBTITLE, APP_TITLE, CONTEXT_LABELS, ROUTES_WITH_SECTION_HERO } from "@/lib/navigation";
 import { streamStatusLabel } from "@/lib/maintenance/status";
 import { cn } from "@/lib/utils";
@@ -121,24 +127,20 @@ export function Topbar({ drawerOpen = false, onMenuToggle }: TopbarProps) {
           <div className="countach-topbar-controls" role="toolbar" aria-label="Stream controls">
             <button
               type="button"
-              disabled={!bootReady}
+              disabled={!bootReady || streamStatus === "live"}
               onClick={startStream}
               className="countach-dash-btn countach-dash-btn--run"
             >
-              <span className="countach-dash-btn-glyph" aria-hidden>
-                |&gt;
-              </span>
+              <PlayGlyph className="countach-dash-btn-glyph" />
               Start
             </button>
             <button
               type="button"
-              disabled={!bootReady}
+              disabled={!bootReady || streamStatus !== "live"}
               onClick={pauseStream}
               className="countach-dash-btn"
             >
-              <span className="countach-dash-btn-glyph" aria-hidden>
-                ||
-              </span>
+              <PauseGlyph className="countach-dash-btn-glyph" />
               Pause
             </button>
             <button
@@ -147,9 +149,7 @@ export function Topbar({ drawerOpen = false, onMenuToggle }: TopbarProps) {
               onClick={resetStream}
               className="countach-dash-btn"
             >
-              <span className="countach-dash-btn-glyph" aria-hidden>
-                []
-              </span>
+              <StopGlyph className="countach-dash-btn-glyph" />
               Reset
             </button>
             <button
@@ -158,9 +158,7 @@ export function Topbar({ drawerOpen = false, onMenuToggle }: TopbarProps) {
               onClick={injectFailureRisk}
               className="countach-dash-btn countach-dash-btn--danger"
             >
-              <span className="countach-dash-btn-glyph" aria-hidden>
-                !
-              </span>
+              <AlertGlyph className="countach-dash-btn-glyph" />
               Inject
             </button>
           </div>

@@ -6,6 +6,12 @@ import { useEffect, useRef } from "react";
 
 import { PmMonitorLogo } from "@/components/layout/pm-monitor-logo";
 import { LiveClock } from "@/components/layout/live-clock";
+import {
+  AlertGlyph,
+  PauseGlyph,
+  PlayGlyph,
+  StopGlyph,
+} from "@/components/layout/transport-icons";
 import { APP_TITLE, NAV_ITEMS } from "@/lib/navigation";
 import { streamStatusLabel } from "@/lib/maintenance/status";
 import { cn } from "@/lib/utils";
@@ -146,20 +152,22 @@ export function MobileNavDrawer({ open, onClose }: MobileNavDrawerProps) {
         >
           <button
             type="button"
-            disabled={!bootReady}
+            disabled={!bootReady || streamStatus === "live"}
             onClick={startStream}
             className="countach-dash-btn countach-dash-btn--run min-h-11 flex-1"
             tabIndex={open ? 0 : -1}
           >
+            <PlayGlyph className="countach-dash-btn-glyph" />
             Start
           </button>
           <button
             type="button"
-            disabled={!bootReady}
+            disabled={!bootReady || streamStatus !== "live"}
             onClick={pauseStream}
             className="countach-dash-btn min-h-11 flex-1"
             tabIndex={open ? 0 : -1}
           >
+            <PauseGlyph className="countach-dash-btn-glyph" />
             Pause
           </button>
           <button
@@ -169,6 +177,7 @@ export function MobileNavDrawer({ open, onClose }: MobileNavDrawerProps) {
             className="countach-dash-btn min-h-11 flex-1"
             tabIndex={open ? 0 : -1}
           >
+            <StopGlyph className="countach-dash-btn-glyph" />
             Reset
           </button>
           <button
@@ -178,6 +187,7 @@ export function MobileNavDrawer({ open, onClose }: MobileNavDrawerProps) {
             className="countach-dash-btn countach-dash-btn--danger min-h-11 flex-1"
             tabIndex={open ? 0 : -1}
           >
+            <AlertGlyph className="countach-dash-btn-glyph" />
             Inject
           </button>
         </div>

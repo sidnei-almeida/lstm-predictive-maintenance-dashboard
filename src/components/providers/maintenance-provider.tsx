@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { ApiColdStartOverlay } from "@/components/layout/api-cold-start-overlay";
 import { useMaintenanceStore } from "@/store/maintenance-store";
@@ -10,6 +10,7 @@ export function MaintenanceProvider({ children }: { children: React.ReactNode })
   const bootPhase = useMaintenanceStore((s) => s.bootPhase);
   const bootError = useMaintenanceStore((s) => s.bootError);
   const startBoot = useMaintenanceStore((s) => s.startBoot);
+  const startStream = useMaintenanceStore((s) => s.startStream);
 
   const [showOverlay, setShowOverlay] = useState(true);
   const [fadeOut, setFadeOut] = useState(false);
@@ -17,6 +18,15 @@ export function MaintenanceProvider({ children }: { children: React.ReactNode })
   useEffect(() => {
     void startBoot();
   }, [startBoot]);
+
+  const autoStarted = useRef(false);
+
+  // Kick the replay off on its own once boot lands — no visitor click required.
+  useEffect(() => {
+    if (!bootReady || autoStarted.current) return;
+    autoStarted.current = true;
+    startStream();
+  }, [bootReady, startStream]);
 
   useEffect(() => {
     if (bootReady) {

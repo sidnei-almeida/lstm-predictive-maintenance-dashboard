@@ -1107,10 +1107,10 @@ body.dashboard-root {
   }
 
   .countach-dash-btn-glyph {
+    display: block;
     flex-shrink: 0;
-    font-size: 0.5625rem;
-    font-weight: 700;
-    letter-spacing: 0;
+    width: 0.5625rem;
+    height: 0.5625rem;
     color: inherit;
     opacity: 0.9;
   }

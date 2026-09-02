@@ -1,6 +1,7 @@
 "use client";
 
 import { DashboardPanel } from "@/components/layout/dashboard-panel";
+import { PauseGlyph, PlayGlyph, StopGlyph } from "@/components/layout/transport-icons";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -113,13 +114,16 @@ export function SimulationControlCenter() {
             </div>
           </dl>
           <div className="flex flex-wrap gap-2 pt-1">
-            <Button size="sm" disabled={!bootReady} onClick={startStream}>
+            <Button size="sm" disabled={!bootReady || streamStatus === "live"} onClick={startStream}>
+              <PlayGlyph />
               Start
             </Button>
-            <Button size="sm" variant="outline" disabled={!bootReady} onClick={pauseStream}>
+            <Button size="sm" variant="outline" disabled={!bootReady || streamStatus !== "live"} onClick={pauseStream}>
+              <PauseGlyph />
               Pause
             </Button>
             <Button size="sm" variant="outline" disabled={!bootReady} onClick={resetStream}>
+              <StopGlyph />
               Reset
             </Button>
           </div>
